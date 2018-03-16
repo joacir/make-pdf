@@ -1,0 +1,20 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<body>
+    <groupDetail1>
+        <groupDetail fieldName="Custumer.group">
+            <line1>
+                <line lineHeight="10" fontSizePt="12">
+                    <cell1><cell lineWidth="40" border="0">Group:</cell></cell1>            
+                    <cell2><cell fieldName="Custumer.group" border="0"></cell></cell2>            
+                </line>
+            </line1>
+        </groupDetail>        
+    </groupDetail1>
+    <line1>
+        <line lineHeight="10" alternateFill="210" border="1">
+            <cell1><cell fieldName="Custumer.number" lineWidth="20"></cell></cell1>
+            <cell2><cell fieldName="Custumer.name"></cell></cell2>
+            <cell3><cell fieldName="Custumer.value" lineWidth="30"></cell></cell3>
+        </line>
+    </line1>    
+</body>

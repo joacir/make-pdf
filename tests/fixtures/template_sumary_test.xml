@@ -1,0 +1,9 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<sumary SUM_OF_CUSTUMER="Custumer.value">
+    <line1>
+        <line>
+            <cell1><cell fontStyle="I">CUSTUMER COUNT ==> [RECORD_COUNT]</cell></cell1>
+            <cell2><cell fontStyle="B" decimal="2">[SUM_OF_CUSTUMER]</cell></cell2>
+        </line>
+    </line1>
+</sumary>

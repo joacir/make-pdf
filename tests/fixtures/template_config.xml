@@ -1,0 +1,12 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<config>
+    <border>1</border>
+    <align>L</align>
+    <fill>0</fill>
+    <fontFamily>Times</fontFamily>
+    <fontSizePt>8</fontSizePt>
+    <titleFontFamily>Arial</titleFontFamily>
+    <titleFontSizePt>5</titleFontSizePt>
+    <groupSpacing>2</groupSpacing>
+    <margin>8</margin>
+</config>

@@ -1,0 +1,9 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<header>
+    <line1>
+        <line lineHeight="20">
+            <image1><image fieldName="Header.image" lineWidth="20"></image></image1>
+            <cell1><cell fieldName="Header.title"></cell></cell1>            
+        </line>
+    </line1>
+</header>

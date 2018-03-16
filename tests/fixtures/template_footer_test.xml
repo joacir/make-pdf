@@ -1,0 +1,10 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<footer>
+    <line1>
+        <line>
+            <cell1><cell>Some footer text</cell></cell1>
+            <cell2><cell>In [DATE]</cell></cell2>
+            <cell3><cell>Pages: [PAGE]/[PAGES]</cell></cell3>
+        </line>
+    </line1>
+</footer>

@@ -1,0 +1,5 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<body>
+	<cell1><cell fieldName="Model.number"></cell></cell1>
+	<cell2><cell fieldName="Model.name"></cell></cell2>
+</body>

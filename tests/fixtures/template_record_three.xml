@@ -1,0 +1,9 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<body>
+    <line1>
+        <line fontSizePt="20">
+	        <cell1><cell fieldName="Model.number"></cell></cell1>
+	        <cell2><cell fieldName="Model.name" fontStyle="B"></cell></cell2>
+        </line>
+    </line1>
+</body>
