@@ -20,7 +20,7 @@ Download the .zip file and extract in your development environment
 
 ### Simple document
 
-Instance a object PdfDocument
+Instance a object PdfDocument:
 
 ```
 require_once('lib/PdfDocument.php');
@@ -28,7 +28,7 @@ require_once('lib/PdfDocument.php');
 $document = new PdfDocument();
 ```
 
-Configure the document
+Configure the document:
 
 ```
 $settings = array(
@@ -41,7 +41,7 @@ $settings = array(
 );
 ```
 
-Create the document
+Create the document:
 
 ```
 $document->create($settings);
@@ -49,7 +49,7 @@ $document->create($settings);
 
 ### Simple report
 
-Instance a object PdfReport
+Instance a object PdfReport:
 
 ```
 require_once('lib/PdfReport.php');
@@ -57,7 +57,7 @@ require_once('lib/PdfReport.php');
 $report = new PdfReport();
 ```
 
-Configure the report
+Configure the report:
 
 ```
 $settings = array(
@@ -77,7 +77,7 @@ $settings = array(
 );
 ```
 
-Create the report
+Create the report:
 
 ```
 $report->create($settings);
@@ -110,89 +110,97 @@ $records = array(
 
 * *header* - A data structure like *records*, but contain only one record used in page header content.
 
-### Defining PDF templates
+## Defining PDF templates
 
-A Template is a structure of options to customize your PDF document or report. It´s divided in the follow sessions:
+A Template is a structure of options to customize your PDF document or report. Its formed by sessions, nodes and your respective attributes. All the elements are structured in a associative array.
 
-* *config* - Here you can set the PDF defaults options will be used in entire document, like font size, alignment, border and margin.
+### Sessions
 
-* *header* - To set the PDF page header options.
+The sessions are the regions will form your document:
 
-* *columnTitles* - To set the PDF report column titles options. It will be printed just after *header*.
+* *config* - The PDF defaults options will be used in entire document, like font size, alignment, border and margin.
 
-* *body* - To set the document body or report detail options. This session is required to create the PDF.
+* *header* - The PDF page header options.
 
-* *sumary* - To set the PDF sumary options, where reports will can be sumarized just after the *body* session.
+* *columnTitles* - The PDF report column titles options. It will be printed just after *header*.
 
-* *footer* - To set the PDF page footer options. It´s the last session to be printed.
+* *body* - The document body or report detail options. This session is required to create the PDF.
+
+* *sumary* - The PDF sumary options, where reports will can be sumarized just after the *body* session.
+
+* *footer* - The PDF page footer options. It´s the last session to be printed.
+
+### Nodes
 
 The sessions contain a set of "nodes" to form the PDF page layout desired. Theses nodes can contain diferents behaviors, like:
 
-* *cell* - The simplest node. It behaves like a box where you can print content.
+* *cell* - The simplest node. It behaves like a box where you can print some content.
 
-* *line* - Use to put one or more nodes in the same row. The nodes can be the same kind or diferents.
+* *line* - Use to put one or more nodes in the same row. The nodes can be the same type or diferents.
 
 * *group* - Like *line* node a *group* is used to agroup many nodes, but it can contain many lines.
 
-* *title* - Used to describe a title of a node, by default its apear on the top of the node and with a minor font size than node.
+* *title* - Use to describe a title of a node, by default its appear on the top of the node and with a minor font size than node.
 
-* *image* - To print a image. You can set the image size (width and height). 
+* *image* - Use to print a image. You can set the image size (width and height). 
 
 * *checkbox* - It print a blank box to be checked, or fullfilled with some content.
 
 * *digit* - It print a sequence of boxes that can be used to set a field of a formulary.
 
-* *barCode123ABC* - To print a bar code of kind 123ABC.
+* *barCode123ABC* - It print a bar code of kind 123ABC.
 
-* *barCodeI25* - To print a bar code of kind I25.
+* *barCodeI25* - It print a bar code of kind I25.
 
-* *verse* - It´s used to define the content of a verse page.
+* *verse* - Use to define the content of a page verse.
 
-* *watermark* - To print a watermark in a PDF document or report.
+* *watermark* - It print a watermark in a PDF document or report.
+
+### Attributes
 
 The nodes can contain the follow attributes used to define its caracteristics:
 
-* *text* - Set a static content to be printed in a node.
+* *text* - A static content to be printed in a node.
 
-* *fieldName* - Set a dynamic content from *records* to be printed in a node. (example: Entity.field)
+* *fieldName* - A dynamic content from *records* to be printed in a node. (example: Entity.field)
 
-* *border* - Set a border of a node. (0 - none, 1 - all, R - right, L - left, T - top and B - bottom)
+* *border* - The border of a node. (0 - none, 1 - all, R - right, L - left, T - top and B - bottom)
 
-* *margin* - Set the left, right and top margin of the document or report page. Can be used only in *config* session. (Default 10 mm)
+* *margin* - The left, right and top margin of the document or report page. Can be used only in *config* session. (Default 10 mm)
 
-* *align* - Set the content horizontal alignment. (L - left, C - center, R - right) 
+* *align* - The content horizontal alignment. (L - left, C - center, R - right) 
 
-* *title* - Set the node title content. It´s can be static (by attribute *text*) or dynamic (by attribute *fieldName*).
+* *title* - The node title content. It´s can be static (by attribute *text*) or dynamic (by attribute *fieldName*).
 
-* *fill* - Set a background color of a node (Use the RGB standard).
+* *fill* - A background color of a node (Use the RGB standard).
 
-* *fontFamily* - Set the font family of a document or a node like Arial, Times, Courier, Symbol, ZapfDingbats. (Default Arial) 
+* *fontFamily* - The font family of a document or a node like Arial, Times, Courier, Symbol and ZapfDingbats. (Default Arial) 
 
-* *fontStyle* - Set the font style of a document or a node (B - bold, I - italic, N - normal, U - underscored)
+* *fontStyle* - The font style of a document or a node. (B - bold, I - italic, N - normal, U - underscored)
 
-* *fontSizePt* - Set the font size of a document or a node. (Use points)
+* *fontSizePt* - The font size of a document or a node. (Use points)
 
-* *titleFontFamily* - Set the font family of a node title like Arial, Times, Courier, Symbol, ZapfDingbats. (Default Arial) 
+* *titleFontFamily* - The font family of a node title like Arial, Times, Courier, Symbol and ZapfDingbats. (Default Arial) 
 
-* *titleFontStyle* - Set the font style of a node title (B - bold, I - italic, N - normal, U - underscored)
+* *titleFontStyle* - The font style of a node title. (B - bold, I - italic, N - normal, U - underscored)
 
-* *titleFontSizePt* - Set the font size of a node title in points.
+* *titleFontSizePt* - The font size of a node title in points.
 
-* *lineWidth* - Set the width size of a node in milimiters.
+* *lineWidth* - The width size of a node in milimiters.
 
-* *lineHeight* - Set the height size of a node in milimiters.
+* *lineHeight* - The height size of a node in milimiters.
 
-* *x* - Set the horizontal position of a node in milimiters.
+* *x* - The horizontal position of a node in milimiters.
 
-* *y* - Set the vertical position of a node in milimiters.
+* *y* - The vertical position of a node in milimiters.
 
-* *relativeX* - Set a offset in horizontal position of a node in milimiters. It can be a negative value too.
+* *relativeX* - A offset in horizontal position of a node in milimiters. It can be a negative value.
 
-* *relativeY* - Set a offset in vertical position of a node in milimiters. It can be a negative value too.
+* *relativeY* - A offset in vertical position of a node in milimiters. It can be a negative value.
 
-* *groupSpacing* - Set a blank space after a printed group.
+* *groupSpacing* - A blank space after a printed group.
 
-* *decimal* - Set a double value format to print values. (Example: 1234.56 defined with "decimal = 2" results in "1.234,56"
+* *decimal* - A double value format to print values. (Example: 1234.56 defined with "decimal = 2" results in "1.234,56"
 
 ### Example of a complete template contained sessions, nodes and attributes:
 
