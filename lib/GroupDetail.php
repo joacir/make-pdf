@@ -1,16 +1,14 @@
 <?php
-require_once('Cell.php');
-
 class GroupDetail extends Cell {
 
     public function create() {
         if (empty($this->Pdf->groupFieldValue) || $this->Pdf->groupFieldValue != $this->getText()) {
             $this->addNewPage();
             $this->Pdf->groupFieldValue = $this->getText();        
-            foreach ($this->config as $key => $nodes) {
-                if (is_array($nodes) && (string)$key != 'title') {
-                    foreach ($nodes as $node) {
-                        $this->addChild($node);
+            foreach ($this->config as $key => $node) {
+                if (is_array($node) && (string)$key != 'title') {
+                    foreach ($node as $type => $config) {
+                        $this->addChild(array($type => $config));
                     }
                 }            
             }

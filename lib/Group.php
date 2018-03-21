@@ -1,15 +1,13 @@
 <?php
-require_once('Cell.php');
-
 class Group extends Cell {
 
     public function create() {
         $y = $this->GetY();
         $x = $this->GetX();
-        foreach ($this->config as $key => $nodes) {
-            if (is_array($nodes) && (string)$key != 'title') {
-                foreach ($nodes as $node) {
-                    $this->addChild($node);
+        foreach ($this->config as $key => $node) {
+            if (is_array($node) && (string)$key != 'title') {
+                foreach ($node as $type => $config) {
+                    $this->addChild(array($type => $config));
                 }
             }            
         }

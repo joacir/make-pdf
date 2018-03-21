@@ -1,6 +1,4 @@
 <?php
-require_once('Cell.php');
-
 class WaterMark extends Cell {
     
     public $angle = 45;

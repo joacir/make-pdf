@@ -1,6 +1,4 @@
 <?php
-require_once('Cell.php');
-
 class BarCodeI25 extends Cell {
     
     public function create() {

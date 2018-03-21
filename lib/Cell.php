@@ -1,6 +1,4 @@
 <?php
-require_once('Title.php');
-
 class Cell {
     
     public $Parent = null;
@@ -311,12 +309,9 @@ class Cell {
     public function addChild($node) {
         list($type, $config) = each($node);
         $type = ucfirst($type);
-        if (file_exists($type . '.php')) {
-            require_once($type . '.php');
-            if (class_exists($type)) {
-                $this->Children[] = new $type($this, $config);                                                            
-            }                    
-        }
+        if (class_exists($type)) {
+            $this->Children[] = new $type($this, $config);                                                            
+        }                    
     }
         
 }

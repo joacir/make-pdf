@@ -21,7 +21,7 @@ class PdfReport extends PdfDocument {
                 $this->Body();                
                 $this->sumarize($record);
             }
-            $this->Sumary();                
+            $this->Sumary();     
             if (empty($this->fileName)) {
                 $documentPdf = $this->Output();            
             } else {

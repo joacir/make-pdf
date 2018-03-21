@@ -4,6 +4,18 @@ if (!defined("NEWFPDF_FONTPATH")) define("NEWFPDF_FONTPATH", dirname(__FILE__) .
 if (!defined("PARAGRAPH_STRING")) define("PARAGRAPH_STRING", "~~~");
 
 require_once(dirname(__FILE__) . DS . 'fpdf' . DS . 'fpdf.php');
+require_once(dirname(__FILE__) . DS . 'Cell.php');
+require_once(dirname(__FILE__) . DS . 'Line.php');
+require_once(dirname(__FILE__) . DS . 'Group.php');
+require_once(dirname(__FILE__) . DS . 'GroupDetail.php');
+require_once(dirname(__FILE__) . DS . 'Image.php');
+require_once(dirname(__FILE__) . DS . 'Title.php');
+require_once(dirname(__FILE__) . DS . 'Verse.php');
+require_once(dirname(__FILE__) . DS . 'WaterMark.php');
+require_once(dirname(__FILE__) . DS . 'BarCode128ABC.php');
+require_once(dirname(__FILE__) . DS . 'BarCodeI25.php');
+require_once(dirname(__FILE__) . DS . 'Digit.php');
+require_once(dirname(__FILE__) . DS . 'Checkbox.php');
 
 class PdfDocument extends FPDF {
 
@@ -181,7 +193,11 @@ class PdfDocument extends FPDF {
         if (!empty($this->template['config'])) {
             $this->config = array_merge($this->config, $this->template['config']);            
         }
-        $fontFamily = $this->FontFamily;
+        if (!empty($this->FontFamily)) {
+            $fontFamily = $this->FontFamily;            
+        } else {
+            $fontFamily = 'Arial';
+        }
         $fontStyle = $this->FontStyle;
         $fontSizePt = $this->FontSizePt;
         if (isset($this->config['fontSizePt'])) {
@@ -234,7 +250,6 @@ class PdfDocument extends FPDF {
                 if (is_array($nodes)) {
                     foreach ($nodes as $type => $config) {                
                         $type = ucfirst($type);
-                        require_once($type . '.php');
                         if (class_exists($type)) {
                             $this->nodes[$session][] = new $type($this, $config);                        
                         }
@@ -324,7 +339,7 @@ class PdfDocument extends FPDF {
     }
     
     public function getGroupSpacing() {
-        return $this->config['groupSpacing'];
+        return isset($this->config['groupSpacing']) ? $this->config['groupSpacing'] : 0;
     }
 
     public function Cell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false, $link = '') {
@@ -349,12 +364,12 @@ class PdfDocument extends FPDF {
         return file_exists($this->fileName);
     }
 
-    public function Output($pathFileName = null, $destination = "I") {
+    public function Output($pathFileName = null, $destination = "I", $isUTF8 = false) {
         if (empty($pathFileName)) {
             $pathFileName = 'document_' . date("Ymd_His") . '.pdf';
         }
         
-        return parent::Output($pathFileName, $destination);
+        return parent::Output($pathFileName, $destination, $isUTF8);
     }
     
     public function Rotate($angle, $x = -1, $y = -1) {

@@ -1,6 +1,4 @@
 <?php
-require_once('Cell.php');
-
 class BarCode128ABC extends Cell {
     
     public $T128 = array();                                             

@@ -1,6 +1,4 @@
 <?php
-require_once('Cell.php');
-
 class Image extends Cell {
     
     public function create() {

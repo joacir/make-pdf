@@ -1,6 +1,4 @@
 <?php
-require_once('Cell.php');
-
 class Verse extends Cell {
     
     public function create() {
