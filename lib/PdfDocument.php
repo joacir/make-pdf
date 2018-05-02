@@ -247,6 +247,7 @@ class PdfDocument extends FPDF {
     public function addNodes($session) {
         if (!empty($this->template[$session])) {
             foreach ($this->template[$session] as $nodes) {
+                $this->setRecordTemplate();
                 if (is_array($nodes)) {
                     foreach ($nodes as $type => $config) {                
                         $type = ucfirst($type);

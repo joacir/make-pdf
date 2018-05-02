@@ -366,6 +366,39 @@ class PdfReportTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($created);        
     }
     
+    public function testRecordXmlTemplateFiles() {
+        $file = RESULTS_PATH . 'reportRecordXmlTemplateFiles.pdf';
+        $records = $this->generateRecords(10);
+        $templateFileRecord = FIXTURES_PATH . 'template_record_four.xml';
+        $templateFileRecordOdd = FIXTURES_PATH . 'template_record_five.xml';
+        foreach ($records as $key => $record) {
+            $records[$key]['templateFile']['body'] = ($key % 2 == 0) ? $templateFileRecord : $templateFileRecordOdd;           
+        }
+        if (file_exists($file)) unlink($file);
+        $settings = array(
+            'fileName' => $file,
+            'template' => array(
+                'config' => $this->reportConfig,
+                'header' => $this->reportHeader,
+                'columnTitles' => $this->reportColumnTitles,
+                'body' => array(
+                    array('line' => array(
+                        array('cell' => array('fieldName' => 'Custumer.number', 'lineWidth' => 20)),
+                        array('cell' => array('fieldName' => 'Custumer.name'))
+                    ))
+                ),
+                'sumary' => $this->reportSumary,
+                'footer' => $this->reportFooter     
+            ),
+            'header' => $this->reportHeaderRecord,
+            'records' => $records
+        );
+        
+        $created = $this->report->create($settings);
+        
+        $this->assertTrue($created);
+    }
+
     public function generateRecords($count) {
         $records = array();
         $group = 1;
