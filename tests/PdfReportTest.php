@@ -381,12 +381,6 @@ class PdfReportTest extends PHPUnit_Framework_TestCase {
                 'config' => $this->reportConfig,
                 'header' => $this->reportHeader,
                 'columnTitles' => $this->reportColumnTitles,
-                'body' => array(
-                    array('line' => array(
-                        array('cell' => array('fieldName' => 'Custumer.number', 'lineWidth' => 20)),
-                        array('cell' => array('fieldName' => 'Custumer.name'))
-                    ))
-                ),
                 'sumary' => $this->reportSumary,
                 'footer' => $this->reportFooter     
             ),
