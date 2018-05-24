@@ -174,11 +174,15 @@ The nodes can contain the follow attributes used to define its caracteristics:
 
 * *fill* - A background color of a node (Use the RGB standard).
 
+* *alternateFill* - Alternate background color thru the lines using white and the color setted by alternateFill (Use the RGB standard).
+
 * *fontFamily* - The font family of a document or a node like Arial, Times, Courier, Symbol and ZapfDingbats. (Default Arial) 
 
 * *fontStyle* - The font style of a document or a node. (B - bold, I - italic, N - normal, U - underscored)
 
 * *fontSizePt* - The font size of a document or a node. (Use points)
+
+* *textColor* - The text color of a document or a node. Use RGB string separating with commas. (Ex.: '100,150,200')
 
 * *titleFontFamily* - The font family of a node title like Arial, Times, Courier, Symbol and ZapfDingbats. (Default Arial) 
 
@@ -201,6 +205,8 @@ The nodes can contain the follow attributes used to define its caracteristics:
 * *groupSpacing* - A blank space after a printed group.
 
 * *decimal* - A double value format to print values. (Example: 1234.56 defined with "decimal = 2" results in "1.234,56"
+
+* *date* - A date value format to print dates. (Example: 2018-05-01 defined with "date = d/m/Y" results in "01/05/2018"
 
 ### Example of a complete template contained sessions, nodes and attributes:
 

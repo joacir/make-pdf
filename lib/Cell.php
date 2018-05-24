@@ -30,6 +30,7 @@ class Cell {
     
     public function create() {
         $this->setFont();
+        $this->setTextColor();
         $this->setXY();        
         $border = $this->getBorder();
         $align = $this->getAlign();
@@ -252,6 +253,20 @@ class Cell {
         return $fontStyle;
     }
     
+    public function setTextColor() {
+        $rgb = $this->getTextColor();
+        $this->Pdf->SetTextColor($rgb[0], $rgb[1], $rgb[2]);
+    }
+
+    public function getTextColor() {
+        $textColor = $this->Parent->getTextColor();
+        if (isset($this->config['textColor'])) {
+            $textColor = explode(',', $this->config['textColor']);            
+        }
+        
+        return $textColor;
+    }
+
     public function SetXY($x = null, $y = null) {
         $x = empty($x) ? $this->GetX() : $x;
         $y = empty($y) ? $this->GetY() : $y;

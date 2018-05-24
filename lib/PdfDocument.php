@@ -19,71 +19,13 @@ require_once(dirname(__FILE__) . DS . 'Checkbox.php');
 
 class PdfDocument extends FPDF {
 
-    public $CurUnit = null;
-    
-    /**
-    * Arquivo xml que contém as características do documento
-    * Informar caminho e nome completo
-    */
-    public $templateFile = null;
-    
-    /**
-    * Matriz que contém as características (config, sessões e nodes) do documento
-    * Informado diretamente ou importado do templateFile via setTemplate() 
-    */
-    public $template = array();
-    
-    /**
-    * Cada node pode ser uma tag do xml informado em templateFile
-    * Os nodes são divididos por sessões: header, body e footer
-    * Tipos de node: cell, image, digit, checkbox, BarCode128ABC, BarCodeI25, title, line, group e verse
-    */
+    public $CurUnit = null;   
+    public $templateFile = null;    
+    public $template = array();    
     public $nodes = null;
-
-    /**
-    * Cada chave do config pode ser um atributo do node
-    * Chaves que não forem especificadas herdam valores de seus nodes pais, ou que forem definidas em configure()
-    * 
-    * Tipos de config:
-    * 
-    * border -> Borda (0, 1, R, L, T, B)
-    * align -> Alinhamento (L, C, R) 
-    * fill -> Cor de preenchimento do node (número que equivale a cor)
-    * fontFamily -> Fonte (Arial, Times, Courier, Symbol, ZapfDingbats) 
-    * fontStyle -> Estilo da fonte (B, I, N, U)
-    * fontSizePt -> Tamanho da fonte em pontos
-    * titleFontFamily -> Fonte do título (Arial, Times, Courier, Symbol, ZapfDingbats) 
-    * titleFontStyle -> Estilo da fonte do título (B, I, N, U)
-    * titleFontSizePt -> Tamanho da fonte do título em pontos
-    * lineWidth -> Largura do node
-    * lineHeight -> Altura do node
-    * x -> Posição horizontal do node
-    * y -> Posição vertical do node
-    * relativeX -> Adicionado a posição horizontal do node
-    * relativeY -> Adicionado a posição vertical no node
-    * text -> Conteúdo do node (conteúdo fixo)
-    * fieldName -> Campo origem do conteúdo do node (formato: Model.fieldname)
-    * title -> Título do node (cria objeto title)
-    * groupSpacing -> Espaço adicionado depois de impresso o group (somente group)
-    * margin -> Margem esquerda, direita e superior do documento (somente config do document),
-    * decimal -> Formata o conteúdo com o número de casas decimais informado Ex: 9 com "decimal = 2" imprime "9,00"
-    */
-    public $config = array('border' => null, 'align' => 'L', 'fill' => false);
-    
-    /**
-    * Registros de conteúdo do detalhe do documento
-    */
+    public $config = array('border' => null, 'align' => 'L', 'fill' => false);    
     public $records = array();
-    
-    /**
-    * Registro do detalhe selecionado
-    */
-    public $record = array();
-    
-    /**
-    * Registro do cabeçalho do documento
-    * Referenciado em config['fieldName'] = 'Header.field'
-    */
+    public $record = array();    
     public $header = array();
     public $fillOn = true;    
     public $angle = 0;
@@ -337,6 +279,10 @@ class PdfDocument extends FPDF {
 
     public function getFontStyle() {
         return $this->config['fontStyle'];
+    }
+    
+    public function getTextColor() {
+        return array(0, 0, 0);
     }
     
     public function getGroupSpacing() {
