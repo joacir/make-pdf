@@ -114,26 +114,22 @@ class Cell {
     public function getFieldText() {
         $text = null;
         if (isset($this->config['fieldName'])) {
-            $fieldNames = explode('.', $this->config['fieldName']);                                        
-            $subField = null;
-            if (count($fieldNames) == 2) {
-                list($model, $field) = $fieldNames;                                                        
+            $nodes = explode('.', $this->config['fieldName']);                                        
+            if (!empty($nodes[0]) && $nodes[0] == 'Header') {
+                $text = $this->getHeaderText($nodes[1]);                    
             } else {
-                list($model, $field, $subField) = $fieldNames;                                                                        
+                $value = $this->Pdf->record;
+                foreach ($nodes as $node) {
+                    if (!empty($value[$node])) {
+                        $value = $value[$node];
+                        if (!is_array($value)) {
+                            $text = $value;
+                        }                
+                    }
+                }    
             }
-            if (isset($this->Pdf->record[$model][$field])) {
-                if (empty($subField)) {
-                    $text = $this->Pdf->record[$model][$field];                                    
-                } else {
-                    $text = $this->Pdf->record[$model][$field][$subField];                                                        
-                }
-            } else {
-                if ($model == 'Header') {
-                    $text = $this->getHeaderText($field);                    
-                }
-            }
-        } 
-        
+        }
+
         return $text;
     }
     
