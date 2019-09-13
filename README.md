@@ -91,8 +91,12 @@ You can use these settings to customize your PDF document or report:
 
 * *fileName* - A complete path and file name to the generated PDF. Whether not defined, Make PDF will return a PDF content stream to be render in web browser. (Default null)
 
-* *binaryFile* - If TRUE returns the document as a string.
-(Default FALSE)
+* *outputType* - Destination where to send the document. It can be one of the following:
+I: send the file inline to the browser. The PDF viewer is used if available.
+D: send to the browser and force a file download with the name given by name.
+S: return the document as a string.
+(Default I)
+
 
 * *orientation* - PDF page orientation. Use 'P' to portrait or 'L' to landscape. (Default 'P')
 
