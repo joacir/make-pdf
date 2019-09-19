@@ -53,7 +53,8 @@ class PdfDocument extends FPDF {
                 $this->Body();                
             }
             if (empty($this->fileName)) {
-                $documentPdf = $this->Output();            
+                $destination = empty($this->outputType) ? 'I' : $this->outputType;  
+                $documentPdf = $this->Output(null, $destination);            
             } else {
                 $documentPdf = $this->saveFile($this->fileName);
             }                        
