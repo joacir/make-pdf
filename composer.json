@@ -4,7 +4,7 @@
     "description": "A simple way to make pdf documents and reports in PHP",
     "keywords": ["pdf","php"],
     "homepage": "https://aelian.com.br",
-    "license": "Apache 2",
+    "license": "MIT",
     "authors": [
         {
             "name": "joacir",
