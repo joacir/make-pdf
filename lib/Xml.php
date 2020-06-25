@@ -1,4 +1,6 @@
 <?php
+namespace Pdf\MakePdf;
+
 /**
  * XML handling for Cake.
  *
@@ -118,9 +120,9 @@ class Xml {
 			}
 */            
 		} elseif (!is_string($input)) {
-			throw new XmlException(__d('cake_dev', 'Invalid input.'));
+			throw new \Exception('Invalid input.');
 		}
-		throw new XmlException(__d('cake_dev', 'XML cannot be read.'));
+		throw new \Exception('XML cannot be read.');
 	}
 
 /**
@@ -139,12 +141,12 @@ class Xml {
 		}
 		try {
 			if ($options['return'] === 'simplexml' || $options['return'] === 'simplexmlelement') {
-				$xml = new SimpleXMLElement($input, LIBXML_NOCDATA);
+				$xml = new \SimpleXMLElement($input, LIBXML_NOCDATA);
 			} else {
-				$xml = new DOMDocument();
+				$xml = new \DOMDocument();
 				$xml->loadXML($input);
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$xml = null;
 		}
 		if ($hasDisable && !$options['loadEntities']) {
@@ -152,7 +154,7 @@ class Xml {
 		}
 		libxml_use_internal_errors($internalErrors);
 		if ($xml === null) {
-			throw new XmlException(__d('cake_dev', 'Xml cannot be read.'));
+			throw new \Exception('Xml cannot be read.');
 		}
 		return $xml;
 	}
@@ -197,11 +199,11 @@ class Xml {
  */
 	public static function fromArray($input, $options = array()) {
 		if (!is_array($input) || count($input) !== 1) {
-			throw new XmlException(__d('cake_dev', 'Invalid input.'));
+			throw new \Exception('Invalid input.');
 		}
 		$key = key($input);
 		if (is_int($key)) {
-			throw new XmlException(__d('cake_dev', 'The key of input must be alphanumeric'));
+			throw new \Exception('The key of input must be alphanumeric');
 		}
 
 		if (!is_array($options)) {
@@ -210,13 +212,13 @@ class Xml {
 		$defaults = array(
 			'format' => 'tags',
 			'version' => '1.0',
-			'encoding' => Configure::read('App.encoding'),
+			'encoding' => 'UTF8',
 			'return' => 'simplexml',
 			'pretty' => false
 		);
 		$options += $defaults;
 
-		$dom = new DOMDocument($options['version'], $options['encoding']);
+		$dom = new \DOMDocument($options['version'], $options['encoding']);
 		if ($options['pretty']) {
 			$dom->formatOutput = true;
 		}
@@ -224,7 +226,7 @@ class Xml {
 
 		$options['return'] = strtolower($options['return']);
 		if ($options['return'] === 'simplexml' || $options['return'] === 'simplexmlelement') {
-			return new SimpleXMLElement($dom->saveXML());
+			return new \SimpleXMLElement($dom->saveXML());
 		}
 		return $dom;
 	}
@@ -263,7 +265,7 @@ class Xml {
 							// http://www.w3.org/TR/REC-xml/#syntax
 							// https://bugs.php.net/bug.php?id=36795
 							$child = $dom->createElement($key, '');
-							$child->appendChild(new DOMText($value));
+							$child->appendChild(new \DOMText($value));
 						} else {
 							$child = $dom->createElement($key, $value);
 						}
@@ -278,7 +280,7 @@ class Xml {
 					}
 				} else {
 					if ($key[0] === '@') {
-						throw new XmlException(__d('cake_dev', 'Invalid array'));
+						throw new \Exception('Invalid array');
 					}
 					if (is_numeric(implode('', array_keys($value)))) { // List
 						foreach ($value as $item) {
@@ -291,7 +293,7 @@ class Xml {
 					}
 				}
 			} else {
-				throw new XmlException(__d('cake_dev', 'Invalid array'));
+				throw new \Exception('Invalid array');
 			}
 		}
 	}
@@ -338,11 +340,11 @@ class Xml {
  * @throws XmlException
  */
 	public static function toArray($obj) {
-		if ($obj instanceof DOMNode) {
+		if ($obj instanceof \DOMNode) {
 			$obj = simplexml_import_dom($obj);
 		}
-		if (!($obj instanceof SimpleXMLElement)) {
-			throw new XmlException(__d('cake_dev', 'The input is not instance of SimpleXMLElement, DOMDocument or DOMNode.'));
+		if (!($obj instanceof \SimpleXMLElement)) {
+			throw new \Exception('The input is not instance of SimpleXMLElement, DOMDocument or DOMNode.');
 		}
 		$result = array();
 		$namespaces = array_merge(array('' => ''), $obj->getNamespaces(true));
