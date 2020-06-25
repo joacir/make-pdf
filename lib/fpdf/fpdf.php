@@ -6,6 +6,7 @@
 * Date:    2015-12-20                                                          *
 * Author:  Olivier PLATHEY                                                     *
 *******************************************************************************/
+namespace Pdf\MakePdf;
 
 define('FPDF_VERSION','1.81');
 

@@ -1,4 +1,6 @@
 <?php
+use Pdf\MakePdf\PdfReport;
+
 require_once('../lib/PdfReport.php');
 if (!defined("FIXTURES_PATH")) define("FIXTURES_PATH", dirname(__FILE__) . DS . 'fixtures' . DS);
 if (!defined("RESULTS_PATH")) define("RESULTS_PATH", dirname(__FILE__) . DS . 'results' . DS);
@@ -53,7 +55,7 @@ class PdfReportTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testInstance() {
-        $this->assertTrue(is_a($this->report, 'PdfReport'));
+        $this->assertTrue(is_a($this->report, 'Pdf\MakePdf\PdfReport'));
     }
     
     public function testSimple() {

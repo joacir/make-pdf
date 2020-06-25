@@ -1,4 +1,6 @@
 <?php
+use Pdf\MakePdf\PdfDocument;
+
 require_once('../lib/PdfDocument.php');
 if (!defined("FIXTURES_PATH")) define("FIXTURES_PATH", dirname(__FILE__) . DS . 'fixtures' . DS);
 if (!defined("RESULTS_PATH")) define("RESULTS_PATH", dirname(__FILE__) . DS . 'results' . DS);
@@ -19,7 +21,7 @@ class PdfDocumentTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testInstance() {
-        $this->assertTrue(is_a($this->document, 'PdfDocument'));
+        $this->assertTrue(is_a($this->document, 'Pdf\MakePdf\PdfDocument'));
     }
     
     public function testNoTemplateAndRecords() {

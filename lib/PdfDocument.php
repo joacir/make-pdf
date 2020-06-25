@@ -1,4 +1,6 @@
 <?php
+namespace Pdf\MakePdf;
+
 if (!defined("DS")) define("DS", "/");
 if (!defined("NEWFPDF_FONTPATH")) define("NEWFPDF_FONTPATH", dirname(__FILE__) . DS . 'font' . DS);
 if (!defined("PARAGRAPH_STRING")) define("PARAGRAPH_STRING", "~~~");

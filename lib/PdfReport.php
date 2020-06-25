@@ -1,4 +1,6 @@
 <?php
+namespace Pdf\MakePdf;
+
 require_once('PdfDocument.php');
 
 class PdfReport extends PdfDocument {
