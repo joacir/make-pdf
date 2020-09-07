@@ -24,7 +24,7 @@ class Line extends Cell {
                         $maxLineHeight = $this->Pdf->getLasth();
                     }
                     $currentY = $this->Pdf->GetY();
-                    if ($currentY < $y) {
+                    if ($currentY != ($y + $this->Pdf->getLasth())) {
                         $y = $currentY - $maxLineHeight;
                     }
                 }

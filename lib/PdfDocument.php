@@ -174,7 +174,7 @@ class PdfDocument extends FPDF {
             $this->config['lineWidth'] = $this->w - $this->lMargin - $this->rMargin;
         }
         $this->nodes = array('header' => array(), 'body' => array(), 'footer' => array());
-        $this->SetAutoPageBreak(false);
+        $this->SetAutoPageBreak(true, $this->bMargin);
     }
     
     public function Body() {
@@ -185,7 +185,7 @@ class PdfDocument extends FPDF {
         $this->addNodes('header');
     }
 
-    public function Footer() {
+    public function Footer() {        
         $this->addNodes('footer');
     } 
 
@@ -197,7 +197,8 @@ class PdfDocument extends FPDF {
                     foreach ($nodes as $type => $config) {                
                         $type = ucfirst($type);
                         if (class_exists($type)) {
-                            $this->nodes[$session][] = new $type($this, $config);                        
+                            $cell = new $type($this, $config);   
+                            $this->nodes[$session][] = $cell;   
                         }
                     }                    
                 }
