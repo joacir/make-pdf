@@ -82,7 +82,7 @@ class PdfReport extends PdfDocument {
                         if (!is_numeric($value)) {
                             $value = str_replace(',', '.', str_replace('.', '', $value));
                         }
-                        $this->{$this->sumaryFields[$fieldName]} += $value;
+                        $this->{$this->sumaryFields[$fieldName]} += (float) $value;
                         $this->{$this->sumaryFields[$fieldName]} =  str_replace(',', '.', $this->{$this->sumaryFields[$fieldName]});
                     }                            
                 }
