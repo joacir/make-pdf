@@ -215,6 +215,8 @@ The nodes can contain the follow attributes used to define its caracteristics:
 
 * *date* - A date value format to print dates. (Example: 2018-05-01 defined with "date = d/m/Y" results in "01/05/2018"
 
+* *autoPageBreak* - Set the bottom margin limit to page break automaticaly.
+
 ### Example of a complete template contained sessions, nodes and attributes:
 
 ```

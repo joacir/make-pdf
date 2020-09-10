@@ -173,8 +173,12 @@ class PdfDocument extends FPDF {
         if (!isset($this->config['lineWidth'])) {
             $this->config['lineWidth'] = $this->w - $this->lMargin - $this->rMargin;
         }
-        $this->nodes = array('header' => array(), 'body' => array(), 'footer' => array());
-        $this->SetAutoPageBreak(true, $this->bMargin);
+        $this->nodes = array('header' => array(), 'body' => array(), 'footer' => array());        
+        if (!isset($this->config['autoPageBreak'])) {
+            $this->SetAutoPageBreak(false);
+        } else {
+            $this->SetAutoPageBreak(true, $this->config['autoPageBreak']);
+        }
     }
     
     public function Body() {
