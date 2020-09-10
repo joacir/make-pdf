@@ -5,6 +5,7 @@ class Line extends Cell {
         $fill = $this->alternateFill();
         $y = $this->GetY();
         $x = $this->GetX();
+        $page = $this->Pdf->PageNo();
         $maxLineHeight = 0;
         foreach ($this->config as $key => $nodes) {
             if (is_array($nodes) && (string)$key != 'title') {
@@ -24,7 +25,7 @@ class Line extends Cell {
                         $maxLineHeight = $this->Pdf->getLasth();
                     }
                     $currentY = $this->Pdf->GetY();
-                    if ($currentY != ($y + $this->Pdf->getLasth())) {
+                    if ($currentY < ($y + $this->Pdf->getLasth()) || $this->Pdf->PageNo() > $page) {
                         $y = $currentY - $maxLineHeight;
                     }
                 }
