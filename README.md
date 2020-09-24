@@ -217,6 +217,12 @@ The nodes can contain the follow attributes used to define its caracteristics:
 
 * *autoPageBreak* - Set the bottom margin limit to page break automaticaly.
 
+* *footerPage* - Set a page for show the group.
+
+* *middlePage* - Set for show de group only in the middle of the page.
+
+* "autoLineBreak* - Set to break a line automaticaly when a text have the "\n" caracter.
+
 ### Example of a complete template contained sessions, nodes and attributes:
 
 ```

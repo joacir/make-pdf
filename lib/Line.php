@@ -21,13 +21,17 @@ class Line extends Cell {
                     $config['fill'] = $fill;
                     $x += $config['lineWidth'];
                     $this->addChild(array($type => $config));
-                    if ($this->Pdf->getLasth() > $maxLineHeight) {
-                        $maxLineHeight = $this->Pdf->getLasth();
-                    }
                     $currentY = $this->Pdf->GetY();
-                    if ($currentY < ($y + $this->Pdf->getLasth()) || $this->Pdf->PageNo() > $page) {
-                        $y = $currentY - $maxLineHeight;
+                    $lastH = $this->Pdf->getLasth();
+                    if (!empty($this->config['autoLineBreak'])) {
+                        $lastH = $currentY - $y;
                     }
+                    if ($lastH > $maxLineHeight) {
+                        $maxLineHeight = $lastH;
+                    }
+                    if ($currentY < ($y + $lastH) || $this->Pdf->PageNo() > $page) {
+                        $y = $currentY - $maxLineHeight; 
+                    }                    
                 }
             }            
         }

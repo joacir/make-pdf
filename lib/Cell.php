@@ -14,6 +14,7 @@ class Cell {
         if (!is_array($config)) {
             $this->config = array('text' => $config);
         }
+        $this->setAutoPageBreak();
         $this->createTitle();
         $this->create();
     }
@@ -22,6 +23,12 @@ class Cell {
         return $this->Parent->getPdf();
     }
     
+    public function setAutoPageBreak() {
+        if (!empty($this->config['autoPageBreak'])) {
+            $this->Pdf->SetAutoPageBreak($this->config['autoPageBreak']);
+        }
+    }
+
     public function createTitle() {
         if (!empty($this->config['title'])) {
             $this->Children[] = new Title($this, $this->config['title']);
