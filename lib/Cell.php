@@ -139,7 +139,7 @@ class Cell {
 
         return $text;
     }
-    
+
     public function getHeaderText($field) {
         $text = null;
         if (isset($this->Pdf->header[$field])) {

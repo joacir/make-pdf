@@ -19,9 +19,6 @@ class Line extends Cell {
                     $config['y'] = $y;                    
                     $config['x'] = $x;
                     $config['fill'] = $fill;
-                    if ($maxLineHeight > 0 && (empty($config['lineHeight']) || $maxLineHeight > $config['lineHeight'])) {
-                        $config['lineHeight'] = $maxLineHeight;
-                    }
                     $x += $config['lineWidth'];
                     $this->addChild(array($type => $config));
                     $currentY = $this->Pdf->GetY();
