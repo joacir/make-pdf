@@ -112,7 +112,8 @@ class Cell {
         if ($text !== null) {
             $text = $this->variablesToText($text);
             $text = $this->decimal($text);
-            $text = $this->date($text);            
+            $text = $this->date($text);   
+            $text = $this->tab($text);
         }
         
         return $text;
@@ -197,6 +198,14 @@ class Cell {
         
         return $text;
     } 
+
+    public function tab($text) {
+        if (isset($this->config['tab'])) {
+            $text = str_repeat(" ", $this->config['tab']) . $text;
+        }
+
+        return $text;
+    }
                
     public function setFont() {
         $this->Pdf->SetFont($this->getFontFamily(), $this->getFontStyle(), $this->getFontSizePt());

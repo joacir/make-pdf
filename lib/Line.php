@@ -70,10 +70,20 @@ class Line extends Cell {
     
     public function alternateFill() {
         $fill = $this->getFill();
+        $alternate = null;
         if (!empty($this->config['alternateFill'])) {
-            $this->Pdf->fillOn = !$this->Pdf->fillOn;
+            $alternate = $this->config['alternateFill'];
+            if (!empty($alternate)) {
+                $this->Pdf->fillOn = !$this->Pdf->fillOn;
+                if ($this->Pdf->fillOn) {
+                    $fill = $alternate;
+                }
+            }
+        }
+        if (empty($alternate) && !empty($this->Parent->config['alternateFill'])) {
+            $alternate = $this->Parent->config['alternateFill'];
             if ($this->Pdf->fillOn) {
-                $fill = $this->config['alternateFill'];
+                $fill = $alternate;
             }
         }
         

@@ -4,6 +4,9 @@ class Group extends Cell {
     public function create() {
         $footerPage = $this->getFooterPage();
         if (empty($footerPage) || $footerPage == $this->Pdf->PageNo()) {
+            if (!empty($this->config['alternateFill'])) {
+                $this->Pdf->fillOn = !$this->Pdf->fillOn;
+            }
             $this->setMiddlePage();
             $y = $this->GetY();
             $x = $this->GetX();
