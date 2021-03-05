@@ -25,7 +25,7 @@ class Cell {
     
     public function setAutoPageBreak() {
         if (!empty($this->config['autoPageBreak'])) {
-            $this->Pdf->SetAutoPageBreak($this->config['autoPageBreak']);
+            $this->Pdf->SetAutoPageBreak(true, $this->config['autoPageBreak']);
         }
     }
 
