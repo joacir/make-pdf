@@ -21,22 +21,23 @@ require_once(dirname(__FILE__) . DS . 'Checkbox.php');
 
 class PdfDocument extends FPDF {
 
-    public $CurUnit = null;   
-    public $templateFile = null;    
-    public $template = array();    
+    public $CurUnit = null;
+    public $templateFile = null;
+    public $template = array();
     public $nodes = null;
-    public $config = array('border' => null, 'align' => 'L', 'fill' => false);    
+    public $config = array('border' => null, 'align' => 'L', 'fill' => false);
     public $records = array();
-    public $record = array();    
+    public $record = array();
     public $header = array();
-    public $fillOn = true;    
+    public $fillOn = true;
     public $angle = 0;
-    
+    public $skipFirstFooter;
+
     public function __construct($orientation = 'P', $unit = 'mm', $size = 'A4') {
         parent::__construct($orientation, $unit, $size);
         $this->CurUnit = $unit;
     }
-    
+
     public function create($settings) {
         $documentPdf = false;
         $this->setup($settings);
@@ -52,19 +53,19 @@ class PdfDocument extends FPDF {
                 $this->setRecordTemplate();
                 $this->configure();
                 $this->AddPage();
-                $this->Body();                
+                $this->Body();
             }
             if (empty($this->fileName)) {
-                $destination = empty($this->outputType) ? 'I' : $this->outputType;  
-                $documentPdf = $this->Output(null, $destination);            
+                $destination = empty($this->outputType) ? 'I' : $this->outputType;
+                $documentPdf = $this->Output(null, $destination);
             } else {
                 $documentPdf = $this->saveFile($this->fileName);
-            }                        
+            }
         }
-        
+
         return $documentPdf;
     }
-    
+
     public function setup($settings) {
         $orientation = $this->CurOrientation;
         if (!empty($settings['orientation'])) {
@@ -73,46 +74,46 @@ class PdfDocument extends FPDF {
         $unit = $this->CurUnit;
         if (!empty($settings['unit'])) {
             $unit = $settings['unit'];
-        }        
+        }
         $size = $this->CurPageSize;
         if (!empty($settings['size'])) {
             $size = $settings['size'];
-        }        
-        $this->__construct($orientation, $unit, $size); 
+        }
+        $this->__construct($orientation, $unit, $size);
         foreach ($settings as $attribute => $value) {
             $this->{$attribute} = $value;
-        } 
-        $this->AliasNbPages();         
-    }    
-    
+        }
+        $this->AliasNbPages();
+    }
+
     public function setRecordTemplate() {
         if (!empty($this->record['templateFile'])) {
             $this->templateFile = $this->record['templateFile'];
             $this->setTemplate();
-        }    
+        }
     }
-    
+
     public function setTemplate() {
         require_once('Xml.php');
         if (!is_array($this->templateFile)) {
-            $template = Xml::toArray(Xml::build($this->templateFile));             
+            $template = Xml::toArray(Xml::build($this->templateFile));
         } else {
             $template = array('template' => array());
             foreach ($this->templateFile as $session => $templateFile) {
                 if (is_array($templateFile)) {
                     foreach ($templateFile as $subTemplateFile) {
-                        $template['template'] = array_merge_recursive($template['template'], Xml::toArray(Xml::build($subTemplateFile)));                                                                         
+                        $template['template'] = array_merge_recursive($template['template'], Xml::toArray(Xml::build($subTemplateFile)));
                     }
                 } else {
-                    $template['template'] = array_merge($template['template'], Xml::toArray(Xml::build($templateFile)));                                                 
+                    $template['template'] = array_merge($template['template'], Xml::toArray(Xml::build($templateFile)));
                 }
             }
         }
         if (!empty($template['template'])) {
-            $this->template = $this->normalizeTemplate($template['template']);               
+            $this->template = $this->normalizeTemplate($template['template']);
         }
     }
-    
+
     public function normalizeTemplate($configs) {
         foreach ($configs as $configKey => $configValue) {
             $oldKey = $configKey;
@@ -125,21 +126,21 @@ class PdfDocument extends FPDF {
             }
             unset($configs[$oldKey]);
             if (is_array($configValue)) {
-                $configs[$configKey] = $this->normalizeTemplate($configValue);                                        
+                $configs[$configKey] = $this->normalizeTemplate($configValue);
             } else {
                 $configs[$configKey] = $configValue;
             }
         }
-        
+
         return $configs;
     }
 
     public function configure() {
         if (!empty($this->template['config'])) {
-            $this->config = array_merge($this->config, $this->template['config']);            
+            $this->config = array_merge($this->config, $this->template['config']);
         }
         if (!empty($this->FontFamily)) {
-            $fontFamily = $this->FontFamily;            
+            $fontFamily = $this->FontFamily;
         } else {
             $fontFamily = 'Arial';
         }
@@ -162,10 +163,10 @@ class PdfDocument extends FPDF {
         }
         $this->SetFont($fontFamily, $fontStyle, $fontSizePt);
         if (isset($this->config['fill'])) {
-            $this->SetFillColor($this->config['fill'], $this->config['fill'], $this->config['fill']);                                    
+            $this->SetFillColor($this->config['fill'], $this->config['fill'], $this->config['fill']);
         }
         if (!isset($this->config['lineHeight'])) {
-            $this->config['lineHeight'] = $this->FontSize + 1;            
+            $this->config['lineHeight'] = $this->FontSize + 1;
         }
         if (isset($this->config['margin'])) {
             $this->SetMargins($this->config['margin'], $this->config['margin']);
@@ -173,42 +174,46 @@ class PdfDocument extends FPDF {
         if (!isset($this->config['lineWidth'])) {
             $this->config['lineWidth'] = $this->w - $this->lMargin - $this->rMargin;
         }
-        $this->nodes = array('header' => array(), 'body' => array(), 'footer' => array());        
+        $this->nodes = array('header' => array(), 'body' => array(), 'footer' => array());
         if (!isset($this->config['autoPageBreak'])) {
             $this->SetAutoPageBreak(false);
         } else {
             $this->SetAutoPageBreak(true, $this->config['autoPageBreak']);
         }
     }
-    
+
     public function Body() {
         $this->addNodes('body');
     }
-    
+
     public function Header() {
         $this->addNodes('header');
     }
 
-    public function Footer() {        
-        $this->addNodes('footer');
-    } 
+    public function Footer() {
+        if (!$this->skipFirstFooter) {
+            $this->addNodes('footer');
+        }
+
+        $this->skipFirstFooter = false;
+    }
 
     public function addNodes($session) {
         $this->setRecordTemplate();
         if (!empty($this->template[$session])) {
             foreach ($this->template[$session] as $nodes) {
                 if (is_array($nodes)) {
-                    foreach ($nodes as $type => $config) {                
+                    foreach ($nodes as $type => $config) {
                         $type = ucfirst($type);
                         if (class_exists($type)) {
-                            $cell = new $type($this, $config);   
-                            $this->nodes[$session][] = $cell;   
+                            $cell = new $type($this, $config);
+                            $this->nodes[$session][] = $cell;
                         }
-                    }                    
+                    }
                 }
-            }                        
+            }
         }
-    } 
+    }
 
     public function getPdf() {
         return $this;
@@ -221,7 +226,7 @@ class PdfDocument extends FPDF {
     public function getLineHeight() {
         return $this->config['lineHeight'];
     }
-    
+
     public function setLasth($lasth) {
         $this->lasth = $lasth;
     }
@@ -255,7 +260,7 @@ class PdfDocument extends FPDF {
         if (isset($this->config['titleFontFamily'])) {
             $titleFontFamily = $this->config['titleFontFamily'];
         }
-        
+
         return $titleFontFamily;
     }
 
@@ -264,7 +269,7 @@ class PdfDocument extends FPDF {
         if (isset($this->config['titleFontSizePt'])) {
             $titleFontSizePt = $this->config['titleFontSizePt'];
         }
-        
+
         return $titleFontSizePt;
     }
 
@@ -273,7 +278,7 @@ class PdfDocument extends FPDF {
         if (isset($this->config['titleFontStyle'])) {
             $titleFontStyle = $this->config['titleFontStyle'];
         }
-        
+
         return $titleFontStyle;
     }
 
@@ -288,11 +293,11 @@ class PdfDocument extends FPDF {
     public function getFontStyle() {
         return $this->config['fontStyle'];
     }
-    
+
     public function getTextColor() {
         return array(0, 0, 0);
     }
-    
+
     public function getGroupSpacing() {
         return isset($this->config['groupSpacing']) ? $this->config['groupSpacing'] : 0;
     }
@@ -309,13 +314,13 @@ class PdfDocument extends FPDF {
         if (mb_detect_encoding($text, 'auto', true) == "UTF-8") {
             $text = @iconv('UTF-8', 'ISO-8859-1//IGNORE', $text);
         }
-        
+
         return $text;
     }
-    
+
     public function saveFile($pathFileName) {
         $this->Output($pathFileName, 'F');
-        
+
         return file_exists($this->fileName);
     }
 
@@ -323,10 +328,10 @@ class PdfDocument extends FPDF {
         if (empty($pathFileName)) {
             $pathFileName = 'document_' . date("Ymd_His") . '.pdf';
         }
-        
+
         return parent::Output($pathFileName, $destination, $isUTF8);
     }
-    
+
     public function Rotate($angle, $x = -1, $y = -1) {
         if ($x == -1) $x = $this->x;
         if ($y == -1) $y = $this->y;
@@ -341,7 +346,7 @@ class PdfDocument extends FPDF {
             $this->_out(sprintf('q %.5F %.5F %.5F %.5F %.2F %.2F cm 1 0 0 1 %.2F %.2F cm', $c, $s, -$s, $c, $cx, $cy, -$cx, -$cy));
         }
     }
-    
+
     public function _endpage() {
         if ($this->angle != 0) {
             $this->angle = 0;
@@ -349,7 +354,7 @@ class PdfDocument extends FPDF {
         }
         parent::_endpage();
     }
-        
+
 }
 
 ?>
