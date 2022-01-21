@@ -1,10 +1,10 @@
 # Make PDF
 
-A simple way to make pdf documents and reports in PHP. 
+A simple way to make pdf documents and reports in PHP.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -104,6 +104,8 @@ S: return the document as a string.
 
 * *records* - The data structure used to generate a PDF content, normaly feed from a database entity. In a PdfDocument each record will generate a page, although in PdfReport a page will contain many records acording with template defined options.
 
+* *skipFirstFooter* - Skips footer on first page. (Default false)
+
 ### Example of records:
 
 ```
@@ -112,7 +114,7 @@ $records = array(
     array('EntityName' => array('fieldName' => 'Some content two'),
     array('EntityName' => array('fieldName' => 'Some content two'),
     ...
-);    
+);
 ```
 
 * *header* - A data structure like *records*, but contain only one record used in page header content.
@@ -149,7 +151,7 @@ The sessions contain a set of "nodes" to form the PDF page layout desired. These
 
 * *title* - Use to describe a title of a node, by default its appear on the top of the node and with a minor font size than node.
 
-* *image* - Use to print a image. You can set the image size (width and height). 
+* *image* - Use to print a image. You can set the image size (width and height).
 
 * *checkbox* - It print a blank box to be checked, or fullfilled with some content.
 
@@ -175,7 +177,7 @@ The nodes can contain the follow attributes used to define its caracteristics:
 
 * *margin* - The left, right and top margin of the document or report page. Can be used only in *config* session. (Default 10 mm)
 
-* *align* - The content horizontal alignment. (L - left, C - center, R - right) 
+* *align* - The content horizontal alignment. (L - left, C - center, R - right)
 
 * *title* - The node title content. It´s can be static (by attribute *text*) or dynamic (by attribute *fieldName*).
 
@@ -183,7 +185,7 @@ The nodes can contain the follow attributes used to define its caracteristics:
 
 * *alternateFill* - Alternate background color thru the lines using white and the color setted by alternateFill (Use the RGB standard).
 
-* *fontFamily* - The font family of a document or a node like Arial, Times, Courier, Symbol and ZapfDingbats. (Default Arial) 
+* *fontFamily* - The font family of a document or a node like Arial, Times, Courier, Symbol and ZapfDingbats. (Default Arial)
 
 * *fontStyle* - The font style of a document or a node. (B - bold, I - italic, N - normal, U - underscored)
 
@@ -191,7 +193,7 @@ The nodes can contain the follow attributes used to define its caracteristics:
 
 * *textColor* - The text color of a document or a node. Use RGB string separating with commas. (Ex.: '100,150,200')
 
-* *titleFontFamily* - The font family of a node title like Arial, Times, Courier, Symbol and ZapfDingbats. (Default Arial) 
+* *titleFontFamily* - The font family of a node title like Arial, Times, Courier, Symbol and ZapfDingbats. (Default Arial)
 
 * *titleFontStyle* - The font style of a node title. (B - bold, I - italic, N - normal, U - underscored)
 
@@ -228,21 +230,21 @@ The nodes can contain the follow attributes used to define its caracteristics:
 ```
 $template = array(
     'config' => array(
-        'border' => 1, 
-        'align' => 'L', 
-        'fill' => 0, 
+        'border' => 1,
+        'align' => 'L',
+        'fill' => 0,
         'fontFamily' => 'Arial',
         'fontSizePt' => 10
     ),
     'header' => array(
-        'line1' => array('line' => array(                                
+        'line1' => array('line' => array(
             'lineHeight' => 20,
             'image1' => array('image' => array('fieldName' => 'Header.image', 'lineWidth' => 20)),
             'cell1' => array('cell' => array('fieldName' => 'Header.title'))
         ))
     ),
     'columnTitles' => array(
-        'line1' => array('line' => array(                                
+        'line1' => array('line' => array(
             'fontStyle' => 'B',
             'cell1' => array('cell' => array('text' => 'Number', 'lineWidth' => 20)),
             'cell2' => array('cell' => 'Name'),
@@ -276,12 +278,12 @@ $template = array(
         ))
     ),
     'footer' => array(
-        'line1' => array('line' => array(                                
+        'line1' => array('line' => array(
             'cell1' => array('cell' => 'Some footer text'),
             'cell2' => array('cell' => 'In [DATE]'),
             'cell3' => array('cell' => 'Pages: [PAGE]/[PAGES]'),
-        ))         
-    )                                
+        ))
+    )
 );
 ```
 
@@ -326,7 +328,7 @@ Example of a XML contained a template:
                                 <text>Some text line 1 cell 3</text>
                             </cell>
                         </cell3>
-                    </line>                                        
+                    </line>
                 </line1>
                 <line2>
                     <line>
@@ -367,7 +369,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/aelian-repo/make-pdf/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/aelian-repo/make-pdf/tags).
 
 ## License
 
