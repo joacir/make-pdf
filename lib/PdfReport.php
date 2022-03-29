@@ -75,20 +75,22 @@ class PdfReport extends PdfDocument {
     
     public function sumarize($record) {
         if (!empty($this->sumaryFields)) {
-            foreach ($record as $modelName => $fields) {
-                foreach ($fields as $fieldName => $value) {
-                    $fieldName = $modelName . '.' . $fieldName;
-                    if (!empty($this->sumaryFields[$fieldName])) {
-                        if (!is_numeric($value)) {
-                            $value = str_replace(',', '.', str_replace('.', '', $value));
-                        }
-                        $this->{$this->sumaryFields[$fieldName]} += (float) $value;
-                        $this->{$this->sumaryFields[$fieldName]} =  str_replace(',', '.', $this->{$this->sumaryFields[$fieldName]});
-                    }                            
+            foreach ($this->sumaryFields as $fieldName => $sumFieldName) {
+                $names = explode(".", $fieldName);
+                $value = $record;
+                foreach ($names as $name) {
+                    if (isset($value[$name])) {
+                        $value = $value[$name];
+                    }
                 }
-            }            
+                if (!empty($value)) {
+                    if (!is_numeric($value)) {
+                        $value = str_replace(',', '.', str_replace('.', '', $value));
+                    }
+                    $this->{$sumFieldName} += (float) $value;
+                    $this->{$sumFieldName} = str_replace(',', '.', $this->{$sumFieldName});
+                }
+            }
         }
     }
-
 }
-?>
