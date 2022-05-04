@@ -83,7 +83,7 @@ class PdfReport extends PdfDocument {
                         $value = $value[$name];
                     }
                 }
-                if (!empty($value)) {
+                if (!empty($value) && !is_array($value)) {
                     if (!is_numeric($value)) {
                         $value = str_replace(',', '.', str_replace('.', '', $value));
                     }
