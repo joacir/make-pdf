@@ -1,11 +1,13 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Pdf\MakePdf\PdfReport;
+use PHPUnit\Framework\TestCase;
 
-require_once('../lib/PdfReport.php');
-if (!defined("FIXTURES_PATH")) define("FIXTURES_PATH", dirname(__FILE__) . DS . 'fixtures' . DS);
-if (!defined("RESULTS_PATH")) define("RESULTS_PATH", dirname(__FILE__) . DS . 'results' . DS);
+if (!defined("FIXTURES_PATH")) define("FIXTURES_PATH", dirname(__FILE__) . '/fixtures/');
+if (!defined("RESULTS_PATH")) define("RESULTS_PATH", dirname(__FILE__) . '/results/');
 
-class PdfReportTest extends PHPUnit_Framework_TestCase {
+class PdfReportTest extends TestCase {
        
     public $report = null;
     
@@ -49,7 +51,8 @@ class PdfReportTest extends PHPUnit_Framework_TestCase {
     );
     
 
-    public function setUp() {
+    public function setUp(): void 
+    {
         $this->report = new PdfReport();
         $this->reportHeaderRecord = array('image' => FIXTURES_PATH . 'logo_aelian.png', 'title' => 'REPORT TITLE');
     }

@@ -1,12 +1,11 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../lib/PdfDocument.php';
 
 use Pdf\MakePdf\PdfDocument;
 use PHPUnit\Framework\TestCase;
 
-if (!defined("FIXTURES_PATH")) define("FIXTURES_PATH", dirname(__FILE__) . DS . 'fixtures' . DS);
-if (!defined("RESULTS_PATH")) define("RESULTS_PATH", dirname(__FILE__) . DS . 'results' . DS);
+if (!defined("FIXTURES_PATH")) define("FIXTURES_PATH", dirname(__FILE__) . '/fixtures/');
+if (!defined("RESULTS_PATH")) define("RESULTS_PATH", dirname(__FILE__) . '/results/');
 
 class PdfDocumentTest extends TestCase {
      
