@@ -24,6 +24,9 @@ class QrCodeImage extends Cell {
 
     public function getQrCode() {
         $data = $this->getText();
+        if (empty($data)) {
+            return null;
+        }
         $options = $this->getQrOptions();
         $qrcode = new QRCode($options);
 

@@ -94,7 +94,6 @@ class PdfDocument extends \FPDF {
     }
 
     public function setTemplate() {
-//        require_once('Xml.php');
         if (!is_array($this->templateFile)) {
             $template = Xml::toArray(Xml::build($this->templateFile));
         } else {
