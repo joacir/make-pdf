@@ -1,11 +1,14 @@
 <?php
-use Pdf\MakePdf\PdfDocument;
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../lib/PdfDocument.php';
 
-require_once('../lib/PdfDocument.php');
+use Pdf\MakePdf\PdfDocument;
+use PHPUnit\Framework\TestCase;
+
 if (!defined("FIXTURES_PATH")) define("FIXTURES_PATH", dirname(__FILE__) . DS . 'fixtures' . DS);
 if (!defined("RESULTS_PATH")) define("RESULTS_PATH", dirname(__FILE__) . DS . 'results' . DS);
 
-class PdfDocumentTest extends PHPUnit_Framework_TestCase {
+class PdfDocumentTest extends TestCase {
      
     public $document = null;
     
@@ -16,7 +19,8 @@ class PdfDocumentTest extends PHPUnit_Framework_TestCase {
         'fontSizePt' => 10 
     );
         
-    public function setUp() {
+    public function setUp(): void 
+    {
         $this->document = new PdfDocument();
     }
 
@@ -535,6 +539,37 @@ class PdfDocumentTest extends PHPUnit_Framework_TestCase {
         
         $this->assertTrue($created);
     }
-    
+
+    public function testQRCode() {
+        $qrcode = 'https://www.youtube.com/watch?v=DLzxrzFCyOs&t=43s';
+        $file = RESULTS_PATH . 'qrCode.pdf';
+        if (file_exists($file)) unlink($file);
+        $settings = array(
+            'fileName' => $file,
+            'template' => array(
+                'config' => array(
+                    'border' => 0, 
+                    'align' => 'C', 
+                    'fontFamily' => 'Arial',
+                    'fontSizePt' => 10 
+                ),
+                'body' => array(
+                    array('qrCodeImage' => array('text' => $qrcode)),
+                    array('line' => array(
+                        array('qrCodeImage' => array('text' => $qrcode, 'lineWidth' => 20)),
+                        array('qrCodeImage' => array('fieldName' => 'Model.field', 'lineHeight' => 30, 'title' => array('text' => 'QR Code Example')))
+                    )),
+                )
+            ),
+            'records' => array(
+                array('Model' => array(
+                    'field' => $qrcode,
+                ))
+            )
+        );
+        
+        $created = $this->document->create($settings);
+        
+        $this->assertTrue($created);
+    }    
 }
-?>

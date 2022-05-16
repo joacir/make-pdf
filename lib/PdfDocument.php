@@ -18,6 +18,7 @@ require_once(dirname(__FILE__) . DS . 'BarCode128ABC.php');
 require_once(dirname(__FILE__) . DS . 'BarCodeI25.php');
 require_once(dirname(__FILE__) . DS . 'Digit.php');
 require_once(dirname(__FILE__) . DS . 'Checkbox.php');
+require_once(dirname(__FILE__) . DS . 'QrCodeImage.php');
 
 class PdfDocument extends FPDF {
 
