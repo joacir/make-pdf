@@ -9,12 +9,14 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 ```
-PHP 5.6.0 or greater.
+PHP 7.4.x.
 ```
 
 ### Installing
 
-Download the .zip file and extract in your development environment
+```
+composer require aelian/make-pdf
+```
 
 ## How it works
 
@@ -23,7 +25,7 @@ Download the .zip file and extract in your development environment
 Instance a object PdfDocument:
 
 ```
-require_once('lib/PdfDocument.php');
+use Pdf\MakePdf\PdfDocument;
 
 $document = new PdfDocument();
 ```
@@ -52,7 +54,7 @@ $document->create($settings);
 Instance a object PdfReport:
 
 ```
-require_once('lib/PdfReport.php');
+use Pdf\MakePdf\PdfReport;
 
 $report = new PdfReport();
 ```
@@ -164,6 +166,8 @@ The sessions contain a set of "nodes" to form the PDF page layout desired. These
 * *verse* - Use to define the content of a page verse.
 
 * *watermark* - It print a watermark in a PDF document or report.
+
+* *qrCodeImage* - Use to print a QR Code image in a PDF document or report. You can set the image size (width and height).
 
 ### Attributes
 
@@ -361,7 +365,8 @@ See more examples of template XML files in [tests/fixtures](tests/fixtures) fold
 
 ## Built With
 
-* [FPDF](http://www.fpdf.org/) -  PHP class which allows to generate PDF files with pure PHP
+* [FPDF](http://www.fpdf.org/) - PHP class which allows to generate PDF files with pure PHP.
+* [PHP-QRCODE](https://github.com/chillerlan/php-qrcode) - A PHP QR Code library.
 
 ## Contributing
 
@@ -374,5 +379,3 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## License
 
 This project is licensed under the Apache License - see the [LICENSE](LICENSE) file for details
-
-
