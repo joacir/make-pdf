@@ -1,9 +1,6 @@
 <?php
 namespace Pdf\MakePdf;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../vendor/setasign/fpdf/fpdf.php';
-
 use Pdf\MakePdf\Xml;
 use Pdf\MakePdf\Cell;
 use Pdf\MakePdf\Line;
