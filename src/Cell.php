@@ -161,7 +161,7 @@ class Cell {
             $text = str_replace('[DATE]', date('d/m/Y'), $text);
             $text = str_replace('[PAGES]', "{nb}", $text);
             $text = str_replace('[PAGE]', $this->Pdf->PageNo(), $text);
-            $text = str_replace('[RECORD_COUNT]', count($this->Pdf->records), $text);
+            $text = str_replace('[RECORD_COUNT]', (string)count($this->Pdf->records), $text);
             $text = $this->sumaryToText($text);
         }
 
