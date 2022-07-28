@@ -5,7 +5,7 @@ use Pdf\MakePdf\Title;
 
 class Cell {
 
-    /** @var PdfDocument|PdfReport $Parent */
+    /** @var PdfDocument|PdfReport|Cell $Parent */
     public $Parent;
     /** @var PdfDocument|PdfReport $Pdf */
     public $Pdf;
