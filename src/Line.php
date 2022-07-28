@@ -4,7 +4,7 @@ namespace Pdf\MakePdf;
 use Pdf\MakePdf\Cell;
 
 class Line extends Cell {
-   
+
     public function create() {
         $fill = $this->alternateFill();
         $y = $this->GetY();
@@ -18,9 +18,9 @@ class Line extends Cell {
                         if (!is_array($config)) {
                             $config = array('text' => $config);
                         }
-                        $config['lineWidth'] = $this->getCellWidth();                            
+                        $config['lineWidth'] = $this->getCellWidth();
                     }
-                    $config['y'] = $y;                    
+                    $config['y'] = $y;
                     $config['x'] = $x;
                     $config['fill'] = $fill;
                     $x += $config['lineWidth'];
@@ -34,16 +34,16 @@ class Line extends Cell {
                         $maxLineHeight = $lastH;
                     }
                     if ($currentY < ($y + $lastH) || $this->Pdf->PageNo() > $page) {
-                        $y = $currentY - $maxLineHeight; 
-                    }                    
+                        $y = $currentY - $maxLineHeight;
+                    }
                 }
-            }            
+            }
         }
         $this->config['y'] = $y;
         $this->config['lineHeight'] = $maxLineHeight;
         parent::create();
     }
-    
+
     public function getCellWidth() {
         $width = $this->getLineWidth();
         $count = 0;
@@ -51,13 +51,13 @@ class Line extends Cell {
             if (is_array($node) && (string)$type != 'title') {
                 foreach ($node as $cell) {
                     if (isset($cell['lineWidth'])) {
-                        $width -= $cell['lineWidth'];                    
+                        $width -= $cell['lineWidth'];
                         $count--;
-                    }                             
+                    }
                 }
-                $count++;                                                   
+                $count++;
             }
-        }      
+        }
         $width = $width / $count;
 
         return $width;
@@ -68,20 +68,18 @@ class Line extends Cell {
         if (!empty($this->x)) {
             $x = $this->x;
         }
-        
+
         return $x;
     }
-    
+
     public function alternateFill() {
         $fill = $this->getFill();
         $alternate = null;
         if (!empty($this->config['alternateFill'])) {
             $alternate = $this->config['alternateFill'];
-            if (!empty($alternate)) {
-                $this->Pdf->fillOn = !$this->Pdf->fillOn;
-                if ($this->Pdf->fillOn) {
-                    $fill = $alternate;
-                }
+            $this->Pdf->fillOn = !$this->Pdf->fillOn;
+            if ($this->Pdf->fillOn) {
+                $fill = $alternate;
             }
         }
         if (empty($alternate) && !empty($this->Parent->config['alternateFill'])) {
@@ -90,7 +88,7 @@ class Line extends Cell {
                 $fill = $alternate;
             }
         }
-        
+
         return $fill;
     }
 }

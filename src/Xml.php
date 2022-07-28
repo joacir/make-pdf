@@ -1,6 +1,11 @@
 <?php
 namespace Pdf\MakePdf;
 
+use \Exception;
+use \DOMElement;
+use \DOMDOcument;
+use \DOMNode;
+use \SimpleXMLElement;
 /**
  * XML handling for Cake.
  *
@@ -87,7 +92,7 @@ class Xml {
  * @param string|array $input XML string, a path to a file, a URL or an array
  * @param array $options The options to use
  * @return SimpleXMLElement|DOMDocument SimpleXMLElement or DOMDocument
- * @throws XmlException
+ * @throws Exception
  */
 	public static function build($input, $options = array()) {
 		if (!is_array($options)) {
@@ -106,23 +111,10 @@ class Xml {
 			return self::_loadXml($input, $options);
 		} elseif ($options['readFile'] && file_exists($input)) {
 			return self::_loadXml(file_get_contents($input), $options);
-/*
-        } elseif ($options['readFile'] && strpos($input, 'http://') === 0 || strpos($input, 'https://') === 0) {
-			try {
-				$socket = new HttpSocket(array('request' => array('redirect' => 10)));
-				$response = $socket->get($input);
-				if (!$response->isOk()) {
-					throw new XmlException(__d('cake_dev', 'XML cannot be read.'));
-				}
-				return self::_loadXml($response->body, $options);
-			} catch (SocketException $e) {
-				throw new XmlException(__d('cake_dev', 'XML cannot be read.'));
-			}
-*/            
 		} elseif (!is_string($input)) {
-			throw new \Exception('Invalid input.');
+			throw new Exception('Invalid input.');
 		}
-		throw new \Exception('XML cannot be read.');
+		throw new Exception('XML cannot be read.');
 	}
 
 /**
@@ -131,7 +123,7 @@ class Xml {
  * @param string $input The input to load.
  * @param array $options The options to use. See Xml::build()
  * @return SimpleXmlElement|DOMDocument
- * @throws XmlException
+ * @throws Exception
  */
 	protected static function _loadXml($input, $options) {
 		$hasDisable = function_exists('libxml_disable_entity_loader');
@@ -141,12 +133,12 @@ class Xml {
 		}
 		try {
 			if ($options['return'] === 'simplexml' || $options['return'] === 'simplexmlelement') {
-				$xml = new \SimpleXMLElement($input, LIBXML_NOCDATA);
+				$xml = new SimpleXMLElement($input, LIBXML_NOCDATA);
 			} else {
-				$xml = new \DOMDocument();
+				$xml = new DOMDocument();
 				$xml->loadXML($input);
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$xml = null;
 		}
 		if ($hasDisable && !$options['loadEntities']) {
@@ -154,7 +146,7 @@ class Xml {
 		}
 		libxml_use_internal_errors($internalErrors);
 		if ($xml === null) {
-			throw new \Exception('Xml cannot be read.');
+			throw new Exception('Xml cannot be read.');
 		}
 		return $xml;
 	}
@@ -195,15 +187,15 @@ class Xml {
  * @param array $input Array with data
  * @param array $options The options to use
  * @return SimpleXMLElement|DOMDocument SimpleXMLElement or DOMDocument
- * @throws XmlException
+ * @throws Exception
  */
 	public static function fromArray($input, $options = array()) {
 		if (!is_array($input) || count($input) !== 1) {
-			throw new \Exception('Invalid input.');
+			throw new Exception('Invalid input.');
 		}
 		$key = key($input);
 		if (is_int($key)) {
-			throw new \Exception('The key of input must be alphanumeric');
+			throw new Exception('The key of input must be alphanumeric');
 		}
 
 		if (!is_array($options)) {
@@ -218,7 +210,7 @@ class Xml {
 		);
 		$options += $defaults;
 
-		$dom = new \DOMDocument($options['version'], $options['encoding']);
+		$dom = new DOMDocument($options['version'], $options['encoding']);
 		if ($options['pretty']) {
 			$dom->formatOutput = true;
 		}
@@ -226,7 +218,7 @@ class Xml {
 
 		$options['return'] = strtolower($options['return']);
 		if ($options['return'] === 'simplexml' || $options['return'] === 'simplexmlelement') {
-			return new \SimpleXMLElement($dom->saveXML());
+			return new SimpleXMLElement($dom->saveXML());
 		}
 		return $dom;
 	}
@@ -235,11 +227,11 @@ class Xml {
  * Recursive method to create childs from array
  *
  * @param DOMDocument $dom Handler to DOMDocument
- * @param DOMElement $node Handler to DOMElement (child)
+ * @param DOMDocument|DOMElement $node Handler to DOMElement (child)
  * @param array &$data Array of data to append to the $node.
  * @param string $format Either 'attributes' or 'tags'. This determines where nested keys go.
  * @return void
- * @throws XmlException
+ * @throws Exception
  */
 	protected static function _fromArray($dom, $node, &$data, $format) {
 		if (empty($data) || !is_array($data)) {
@@ -280,7 +272,7 @@ class Xml {
 					}
 				} else {
 					if ($key[0] === '@') {
-						throw new \Exception('Invalid array');
+						throw new Exception('Invalid array');
 					}
 					if (is_numeric(implode('', array_keys($value)))) { // List
 						foreach ($value as $item) {
@@ -293,7 +285,7 @@ class Xml {
 					}
 				}
 			} else {
-				throw new \Exception('Invalid array');
+				throw new Exception('Invalid array');
 			}
 		}
 	}
@@ -306,6 +298,13 @@ class Xml {
  */
 	protected static function _createChild($data) {
 		extract($data);
+		/**
+		 * @var mixed $value
+		 * @var DOMDOcument $dom
+		 * @var string $key
+		 * @var string $format
+		 * @var DOMNode $node
+		*/
 		$childNS = $childValue = null;
 		if (is_array($value)) {
 			if (isset($value['@'])) {
@@ -316,7 +315,7 @@ class Xml {
 				$childNS = $value['xmlns:'];
 				unset($value['xmlns:']);
 			}
-		} elseif (!empty($value) || $value === 0) {
+		} elseif ($value === 0) {
 			$childValue = (string)$value;
 		}
 
@@ -337,14 +336,14 @@ class Xml {
  *
  * @param SimpleXMLElement|DOMDocument|DOMNode $obj SimpleXMLElement, DOMDocument or DOMNode instance
  * @return array Array representation of the XML structure.
- * @throws XmlException
+ * @throws Exception
  */
 	public static function toArray($obj) {
-		if ($obj instanceof \DOMNode) {
+		if ($obj instanceof DOMNode) {
 			$obj = simplexml_import_dom($obj);
 		}
-		if (!($obj instanceof \SimpleXMLElement)) {
-			throw new \Exception('The input is not instance of SimpleXMLElement, DOMDocument or DOMNode.');
+		if (!($obj instanceof SimpleXMLElement)) {
+			throw new Exception('The input is not instance of SimpleXMLElement, DOMDocument or DOMNode.');
 		}
 		$result = array();
 		$namespaces = array_merge(array('' => ''), $obj->getNamespaces(true));

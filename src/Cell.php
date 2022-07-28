@@ -5,11 +5,13 @@ use Pdf\MakePdf\Title;
 
 class Cell {
 
-    public $Parent = null;
-    public $Pdf = null;
-    public $config = null;
-    public $Children = array();
-    public $titleLineHeight = 0;
+    /** @var PdfDocument|PdfReport|Cell $Parent */
+    public $Parent;
+    /** @var PdfDocument|PdfReport $Pdf */
+    public $Pdf;
+    public array $config;
+    public array $Children = [];
+    public int $titleLineHeight = 0;
 
     public function __construct($Parent, $config = array()) {
         $this->Parent = $Parent;
@@ -159,7 +161,7 @@ class Cell {
             $text = str_replace('[DATE]', date('d/m/Y'), $text);
             $text = str_replace('[PAGES]', "{nb}", $text);
             $text = str_replace('[PAGE]', $this->Pdf->PageNo(), $text);
-            $text = str_replace('[RECORD_COUNT]', count($this->Pdf->records), $text);
+            $text = str_replace('[RECORD_COUNT]', (string)count($this->Pdf->records), $text);
             $text = $this->sumaryToText($text);
         }
 
@@ -344,7 +346,7 @@ class Cell {
             $type = 'Pdf\\MakePdf\\' . ucfirst($type);
             if (class_exists($type)) {
                 $this->Children[] = new $type($this, $config);
-            }    
+            }
         }
     }
 }
