@@ -5,14 +5,11 @@ use Pdf\MakePdf\Title;
 
 class Cell {
 
-    /** @var PdfDocument|PdfReport|Cell $Parent */
-    public $Parent;
-    /** @var PdfDocument|PdfReport $Pdf */
-    public $Pdf;
-    /** @var string|array $config */
-    public $config;
-    public array $Children = [];
-    public int $titleLineHeight = 0;
+    public $Parent = null;
+    public $Pdf = null;
+    public $config = null;
+    public $Children = [];
+    public $titleLineHeight = 0;
 
     public function __construct($Parent, $config = array()) {
         $this->Parent = $Parent;
