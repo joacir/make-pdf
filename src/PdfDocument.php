@@ -32,6 +32,7 @@ class PdfDocument extends \FPDF {
     public $fillOn = true;
     public $angle = 0;
     public $skipFirstFooter;
+    public $fileName;
 
     public function __construct($orientation = 'P', $unit = 'mm', $size = 'A4') {
         parent::__construct($orientation, $unit, $size);
