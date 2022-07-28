@@ -9,7 +9,8 @@ class Cell {
     public $Parent;
     /** @var PdfDocument|PdfReport $Pdf */
     public $Pdf;
-    public array $config;
+    /** @var string|array $config */
+    public $config;
     public array $Children = [];
     public int $titleLineHeight = 0;
 
