@@ -20,6 +20,7 @@ class PDFWriteTag extends \FPDF
 	protected $Space; // Minimum space between words
 	protected $PileStyle;
 	protected $Line2Print; // Line to display
+	protected $LastLine;
 	protected $NextLineBegin; // Buffer between lines
 	protected $TagName;
 	protected $Delta; // Maximum width minus width
@@ -167,6 +168,7 @@ class PDFWriteTag extends \FPDF
 		$tag=trim($tag);
 
 		// Family
+		$family = null;
 		if($this->TagStyle[$tag]['family']!="")
 			$family=$this->TagStyle[$tag]['family'];
 		else
@@ -182,7 +184,7 @@ class PDFWriteTag extends \FPDF
 		}
 
 		// Style
-		$style="";
+		$style = null;
 		$style1=strtoupper($this->TagStyle[$tag]['style']);
 		if($style1!="N")
 		{
@@ -214,6 +216,7 @@ class PDFWriteTag extends \FPDF
 		}
 
 		// Size
+		$size = null;
 		if($this->TagStyle[$tag]['size']!=0)
 			$size=$this->TagStyle[$tag]['size'];
 		else
@@ -229,6 +232,7 @@ class PDFWriteTag extends \FPDF
 		}
 
 		// Color
+		$color = null;
 		if($this->TagStyle[$tag]['color']!="")
 			$color=$this->TagStyle[$tag]['color'];
 		else
@@ -380,7 +384,6 @@ class PDFWriteTag extends \FPDF
 
 		}
 
-		trim($this->Text);
 		if($Length>$this->wTextLine || $this->LastLine==true)
 			$this->EndLine();
 	}
