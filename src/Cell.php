@@ -49,8 +49,15 @@ class Cell {
         $h = $this->getLineHeight();
         $w = $this->getLineWidth();
         $text = $this->getText();
+        $useTag = $this->getUseTag();
 
-        $this->Pdf->MultiCell($w, $h, $text, $border, $align, $fill);
+        if ($useTag) {
+            $x = $this->GetX();
+            $this->Pdf->WriteTag($w, $h, "[span]{$text}[/span]", $border, $align, $fill);
+            $this->Pdf->SetX($x);
+        } else {
+            $this->Pdf->MultiCell($w, $h, $text, $border, $align, $fill);
+        }
 
         $this->Pdf->setLasth($h + $this->titleLineHeight);
     }
@@ -346,5 +353,9 @@ class Cell {
                 $this->Children[] = new $type($this, $config);
             }
         }
+    }
+
+    public function getUseTag() {
+        return $this->config['useTag'] ?? $this->Parent->getUseTag();
     }
 }
