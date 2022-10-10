@@ -49,37 +49,31 @@ class Cell {
         $h = $this->getLineHeight();
         $w = $this->getLineWidth();
         $text = $this->getText();
+        $useTag = $this->getUseTag();
 
-        $this->Pdf->MultiCell($w, $h, $text, $border, $align, $fill);
+        if ($useTag) {
+            $x = $this->GetX();
+            $this->Pdf->WriteTag($w, $h, "[span]{$text}[/span]", $border, $align, $fill);
+            $this->Pdf->SetX($x);
+        } else {
+            $this->Pdf->MultiCell($w, $h, $text, $border, $align, $fill);
+        }
 
         $this->Pdf->setLasth($h + $this->titleLineHeight);
     }
 
     public function getBorder() {
-        $border = $this->Parent->getBorder();
-        if (isset($this->config['border'])) {
-            $border = $this->config['border'];
-        }
-
-        return $border;
+        return $this->config['border'] ?? $this->Parent->getBorder();
     }
 
     public function getAlign() {
-        $align = $this->Parent->getAlign();
-        if (isset($this->config['align'])) {
-            $align = $this->config['align'];
-        }
-
-        return $align;
+        return $this->config['align'] ?? $this->Parent->getAlign();
     }
 
     public function getFill() {
         $fill = false;
         if ($this->Pdf->fillOn) {
-            $fill = $this->Parent->getFill();
-            if (isset($this->config['fill'])) {
-                $fill = $this->config['fill'];
-            }
+            $fill = $this->config['fill'] ?? $this->Parent->getFill();
             if (!empty($fill)) {
                 $this->Pdf->SetFillColor($fill, $fill, $fill);
             }
@@ -89,30 +83,15 @@ class Cell {
     }
 
     public function getLineHeight() {
-        $h = $this->Parent->getLineHeight();
-        if (isset($this->config['lineHeight'])) {
-            $h = $this->config['lineHeight'];
-        }
-
-        return $h;
+        return $this->config['lineHeight'] ?? $this->Parent->getLineHeight();
     }
 
     public function getLineWidth() {
-        $w = $this->Parent->getLineWidth();
-        if (isset($this->config['lineWidth'])) {
-            $w = $this->config['lineWidth'];
-        }
-
-        return $w;
+        return $this->config['lineWidth'] ?? $this->Parent->getLineWidth();
     }
 
     public function getText() {
-        $text = null;
-        if (isset($this->config['text'])) {
-            $text = $this->config['text'];
-        } else {
-            $text = $this->getFieldText();
-        }
+        $text = $this->config['text'] ?? $this->getFieldText();
         if ($text !== null) {
             $text = $this->variablesToText($text);
             $text = $this->decimal($text);
@@ -146,12 +125,7 @@ class Cell {
     }
 
     public function getHeaderText($field) {
-        $text = null;
-        if (isset($this->Pdf->header[$field])) {
-            $text = $this->Pdf->header[$field];
-        }
-
-        return $text;
+        return $this->Pdf->header[$field] ?? null;
     }
 
     public function variablesToText($text) {
@@ -216,57 +190,27 @@ class Cell {
     }
 
     public function getTitleFontFamily() {
-        $titleFontFamily = $this->Parent->getTitleFontFamily();
-        if (isset($this->config['titleFontFamily'])) {
-            $titleFontFamily = $this->config['titleFontFamily'];
-        }
-
-        return $titleFontFamily;
+        return $this->config['titleFontFamily'] ?? $this->Parent->getTitleFontFamily();
     }
 
     public function getTitleFontSizePt() {
-        $titleFontSizePt = $this->Parent->getTitleFontSizePt();
-        if (isset($this->config['titleFontSizePt'])) {
-            $titleFontSizePt = $this->config['titleFontSizePt'];
-        }
-
-        return $titleFontSizePt;
+        return $this->config['titleFontSizePt'] ?? $this->Parent->getTitleFontSizePt();
     }
 
     public function getTitleFontStyle() {
-        $titleFontStyle = $this->Parent->getTitleFontStyle();
-        if (isset($this->config['titleFontStyle'])) {
-            $titleFontStyle = $this->config['titleFontStyle'];
-        }
-
-        return $titleFontStyle;
+        return $this->config['titleFontStyle'] ?? $this->Parent->getTitleFontStyle();
     }
 
     public function getFontFamily() {
-        $fontFamily = $this->Parent->getFontFamily();
-        if (isset($this->config['fontFamily'])) {
-            $fontFamily = $this->config['fontFamily'];
-        }
-
-        return $fontFamily;
+        return $this->config['fontFamily'] ?? $this->Parent->getFontFamily();
     }
 
     public function getFontSizePt() {
-        $fontSizePt = $this->Parent->getFontSizePt();
-        if (isset($this->config['fontSizePt'])) {
-            $fontSizePt = $this->config['fontSizePt'];
-        }
-
-        return $fontSizePt;
+        return $this->config['fontSizePt'] ?? $this->Parent->getFontSizePt();
     }
 
     public function getFontStyle() {
-        $fontStyle = $this->Parent->getFontStyle();
-        if (isset($this->config['fontStyle'])) {
-            $fontStyle = $this->config['fontStyle'];
-        }
-
-        return $fontStyle;
+        return $this->config['fontStyle'] ?? $this->Parent->getFontStyle();
     }
 
     public function setTextColor() {
@@ -291,50 +235,33 @@ class Cell {
     }
 
     public function GetX() {
-        $x = $this->Pdf->GetX();
-        if (isset($this->config['x'])) {
-            $x = $this->config['x'];
-        }
+        $x = $this->config['x'] ?? $this->Pdf->GetX();
         $x += $this->GetRelativeX();
 
         return $x;
     }
 
     public function GetY() {
-        $y = $this->Pdf->GetY();
-        if (isset($this->config['y'])) {
-            $y = $this->config['y'];
-        }
+        $y = $this->config['y'] ?? $this->Pdf->GetY();
         $y += $this->GetRelativeY();
 
         return $y;
     }
 
     public function GetRelativeX() {
-        $relativeX = 0;
-        if (isset($this->config['relativeX'])) {
-            $relativeX = $this->config['relativeX'];
-        }
-
-        return $relativeX;
+        return $this->config['relativeX'] ?? 0;
     }
 
     public function GetRelativeY() {
-        $relativeY = 0;
-        if (isset($this->config['relativeY'])) {
-            $relativeY = $this->config['relativeY'];
-        }
-
-        return $relativeY;
+        return $this->config['relativeY'] ?? 0;
     }
 
     public function getGroupSpacing() {
-        $groupSpacing = $this->Parent->getGroupSpacing();
-        if (isset($this->config['groupSpacing'])) {
-            $groupSpacing = $this->config['groupSpacing'];
-        }
+        return $this->config['groupSpacing'] ?? $this->Parent->getGroupSpacing();
+    }
 
-        return $groupSpacing;
+    public function getUseTag() {
+        return $this->config['useTag'] ?? $this->Parent->getUseTag();
     }
 
     public function addChild($node) {
