@@ -2,6 +2,7 @@
 namespace Pdf\MakePdf;
 
 use Pdf\MakePdf\Xml;
+use Pdf\MakePdf\PDFWriteTag;
 use Pdf\MakePdf\Cell;
 use Pdf\MakePdf\Line;
 use Pdf\MakePdf\Group;
@@ -16,7 +17,7 @@ use Pdf\MakePdf\Digit;
 use Pdf\MakePdf\Checkbox;
 use Pdf\MakePdf\QrCodeImage;
 
-class PdfDocument extends \FPDF {
+class PdfDocument extends PDFWriteTag {
 
     public $CurUnit = null;
     public $templateFile = null;
@@ -30,6 +31,7 @@ class PdfDocument extends \FPDF {
     public $angle = 0;
     public $skipFirstFooter;
     public $fileName;
+    public $useTag = false;
 
     public function __construct($orientation = 'P', $unit = 'mm', $size = 'A4') {
         parent::__construct($orientation, $unit, $size);
@@ -159,6 +161,13 @@ class PdfDocument extends \FPDF {
             $this->config['fontFamily'] = $fontFamily;
         }
         $this->SetFont($fontFamily, $fontStyle, $fontSizePt);
+        $this->SetStyle("span", $fontFamily, $fontStyle, $fontSizePt, "0,0,0");
+        $this->SetStyle("b", $fontFamily, 'B', $fontSizePt, "0,0,0");
+        $this->SetStyle("B", $fontFamily, 'B', $fontSizePt, "0,0,0");
+        $this->SetStyle("i", $fontFamily, 'I', $fontSizePt, "0,0,0");
+        $this->SetStyle("I", $fontFamily, 'I', $fontSizePt, "0,0,0");
+        $this->SetStyle("u", $fontFamily, 'U', $fontSizePt, "0,0,0");
+        $this->SetStyle("U", $fontFamily, 'U', $fontSizePt, "0,0,0");
         if (isset($this->config['fill'])) {
             $this->SetFillColor($this->config['fill'], $this->config['fill'], $this->config['fill']);
         }
@@ -253,30 +262,15 @@ class PdfDocument extends \FPDF {
     }
 
     public function getTitleFontFamily() {
-        $titleFontFamily = $this->getFontFamily();
-        if (isset($this->config['titleFontFamily'])) {
-            $titleFontFamily = $this->config['titleFontFamily'];
-        }
-
-        return $titleFontFamily;
+        return $this->config['titleFontFamily'] ?? $this->getFontFamily();
     }
 
     public function getTitleFontSizePt() {
-        $titleFontSizePt = $this->getFontSizePt();
-        if (isset($this->config['titleFontSizePt'])) {
-            $titleFontSizePt = $this->config['titleFontSizePt'];
-        }
-
-        return $titleFontSizePt;
+        return $this->config['titleFontSizePt'] ?? $this->getFontSizePt();
     }
 
     public function getTitleFontStyle() {
-        $titleFontStyle = $this->getFontStyle();
-        if (isset($this->config['titleFontStyle'])) {
-            $titleFontStyle = $this->config['titleFontStyle'];
-        }
-
-        return $titleFontStyle;
+        return $this->config['titleFontStyle'] ?? $this->getFontStyle();
     }
 
     public function getFontFamily() {
@@ -296,7 +290,11 @@ class PdfDocument extends \FPDF {
     }
 
     public function getGroupSpacing() {
-        return isset($this->config['groupSpacing']) ? $this->config['groupSpacing'] : 0;
+        return $this->config['groupSpacing'] ?? 0;
+    }
+
+    public function getUseTag() {
+        return $this->useTag;
     }
 
     public function Cell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false, $link = '') {
