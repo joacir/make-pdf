@@ -161,7 +161,10 @@ class PdfDocument extends PDFWriteTag {
             $this->config['fontFamily'] = $fontFamily;
         }
         $this->SetFont($fontFamily, $fontStyle, $fontSizePt);
+        $this->SetStyle("p", $fontFamily, $fontStyle, $fontSizePt, "0,0,0", 0);
+        $this->SetStyle("P", $fontFamily, $fontStyle, $fontSizePt, "0,0,0", 0);
         $this->SetStyle("span", $fontFamily, $fontStyle, $fontSizePt, "0,0,0");
+        $this->SetStyle("SPAN", $fontFamily, $fontStyle, $fontSizePt, "0,0,0");
         $this->SetStyle("b", $fontFamily, 'B', $fontSizePt, "0,0,0");
         $this->SetStyle("B", $fontFamily, 'B', $fontSizePt, "0,0,0");
         $this->SetStyle("i", $fontFamily, 'I', $fontSizePt, "0,0,0");
