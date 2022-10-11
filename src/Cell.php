@@ -53,7 +53,10 @@ class Cell {
 
         if ($useTag) {
             $x = $this->GetX();
-            $this->Pdf->WriteTag($w, $h, "[span]{$text}[/span]", $border, $align, $fill);
+            if (!preg_match('/<p>(.*)<\/p>/', $text)) {
+                $text = "<p>{$text}</p>";
+            }
+            $this->Pdf->WriteTag($w, $h, $text, $border, $align, $fill, '1');
             $this->Pdf->SetX($x);
         } else {
             $this->Pdf->MultiCell($w, $h, $text, $border, $align, $fill);

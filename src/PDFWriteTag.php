@@ -44,7 +44,6 @@ class PDFWriteTag extends \FPDF
 		$this->align=$align;
 		$this->fill=$fill;
 		$this->Padding=$padding;
-
 		$this->Xini=$this->GetX();
 		$this->href="";
 		$this->PileStyle=array();
@@ -260,12 +259,12 @@ class PDFWriteTag extends \FPDF
 	{
 		$tab=array();
 		// Closing tag
-		if(preg_match("|^(\[/([^\]]+)\])|",$text,$regs)) {
+		if(preg_match("|^(</([^>]+)>)|",$text,$regs)) {
 			$tab[1]="c";
 			$tab[2]=trim($regs[2]);
 		}
 		// Opening tag
-		else if(preg_match("|^(\[([^\]]+)\])|",$text,$regs)) {
+		else if(preg_match("|^(<([^>]+)>)|",$text,$regs)) {
 			$regs[2]=preg_replace("/^a/","a ",$regs[2]);
 			$tab[1]="o";
 			$tab[2]=trim($regs[2]);
@@ -292,7 +291,7 @@ class PDFWriteTag extends \FPDF
 			$tab[2]=' ';
 		}
 		// Text
-		else if(preg_match("/^([^\[ ]+)/",$text,$regs)) {
+		else if(preg_match("/^([^< ]+)/",$text,$regs)) {
 			$tab[1]="t";
 			$tab[2]=trim($regs[1]);
 		}
@@ -407,7 +406,7 @@ class PDFWriteTag extends \FPDF
 			$i=0;
 		}
 		else {
-			preg_match("/^(( *(\[([^\]]+)\])* *)*)(.*)/",$this->Text,$regs);
+			preg_match("/^(( *(<([^>]+)>)* *)*)(.*)/",$this->Text,$regs);
 			$regs[1]=str_replace(" ", "", $regs[1]);
 			$this->Text=$regs[1].$regs[5];
 			$i=-1;
@@ -502,7 +501,6 @@ class PDFWriteTag extends \FPDF
 	{
 		$x=$this->Xini;
 		$y=$this->GetY()+$this->hLine;
-
 		$this->SetXY($x,$y);
 	}
 
@@ -512,9 +510,9 @@ class PDFWriteTag extends \FPDF
 		$border=0;
 		if($this->border==1)
 			$border="LR";
-		$this->Cell($this->wLine,$this->hLine/2,"",$border,0,'C',$this->fill);
+		$this->Cell($this->wLine,$this->hLine/6,"",$border,0,'C',$this->fill);
 		$x=$this->Xini;
-		$y=$this->GetY()+$this->hLine/2;
+		$y=$this->GetY()+$this->hLine/6;
 		$this->SetXY($x,$y);
 	}
 }
