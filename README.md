@@ -229,7 +229,7 @@ The nodes can contain the follow attributes used to define its caracteristics:
 
 * *autoLineBreak* - Set to break a line automaticaly when a text have the "\n" caracter.
 
-* *useTag* - Set a cell to ajust font style when detect a tag in the content. Allowed tags are: <B> - Bold, <I> - Italic and <U> - Underline
+* *useTag* - Set a cell to ajust font style when detect a tag in the content. Allowed tags are: `<B>` - Bold, `<I>` - Italic and `<U>` - Underline
 
 ### Example of a complete template contained sessions, nodes and attributes:
 
