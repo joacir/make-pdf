@@ -133,6 +133,7 @@ class Cell {
 
     public function variablesToText($text) {
         if (!empty($text)) {
+            $text = str_replace('[DATETIME]', date('d/m/Y - H:i:s'), $text);
             $text = str_replace('[DATE]', date('d/m/Y'), $text);
             $text = str_replace('[PAGES]', "{nb}", $text);
             $text = str_replace('[PAGE]', $this->Pdf->PageNo(), $text);
