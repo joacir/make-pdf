@@ -29,6 +29,9 @@ class Line extends Cell {
                     $lastH = $this->Pdf->getLasth();
                     if (!empty($this->config['autoLineBreak'])) {
                         $lastH = $currentY - $y;
+                        if ($this->Pdf->PageNo() > $page) {
+                            $lastH = $this->Pdf->getLasth();
+                        }
                         $this->config['lineHeight'] = $lastH;
                     }
                     if ($lastH > $maxLineHeight) {
