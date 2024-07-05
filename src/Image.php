@@ -11,13 +11,6 @@ class Image extends Cell {
         $w = $this->getLineWidth();
         $h = $this->getLineHeight();
         $imageFile = $this->getImageFile();
-        $exif = exif_read_data($imageFile);
-        if (!empty($exif['Orientation'])) {
-            $orientation = $exif['Orientation'];
-            $rotations = [3 => 180, 6 => -90, 8 => 90];
-            $angle = $rotations[$orientation];
-            $this->Pdf->Rotate($angle, $x + $w / 2, $y + $h / 2);
-        }
         
         $this->Pdf->Image($imageFile, $x, $y, $w, $h);
         $this->Pdf->SetY($y + $h);
