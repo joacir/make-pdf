@@ -169,6 +169,8 @@ The sessions contain a set of "nodes" to form the PDF page layout desired. These
 
 * *qrCodeImage* - Use to print a QR Code image in a PDF document or report. You can set the image size (width and height).
 
+* *PostNetCode* - It print a POSTNET bar code using a Zipcode.
+
 ### Attributes
 
 The nodes can contain the follow attributes used to define its caracteristics:
