@@ -600,4 +600,40 @@ class PdfDocumentTest extends TestCase {
 
         $this->assertTrue($created);
     }
+
+    public function testPostNetCode() {
+        $zipcode = '17526430';
+        $file = RESULTS_PATH . 'postNetCode.pdf';
+        if (file_exists($file)) unlink($file);
+        $settings = array(
+            'fileName' => $file,
+            'template' => array(
+                'config' => array(
+                    'border' => 0,
+                    'align' => 'C',
+                    'fontFamily' => 'Arial',
+                    'fontSizePt' => 10
+                ),
+                'body' => array(
+                    array('postNetCode' => array('text' => $zipcode)),
+                    array('line' => array(
+                        array('postNetCode' => array('text' => $zipcode, 'lineWidth' => 60.33, 'lineHeight' => 1)),
+                        array('postNetCode' => array('fieldName' => 'Model.field', 'lineHeight' => 1.5))
+                    )),
+                    array('line' => array(
+                        array('postNetCode' => array('text' => $zipcode, 'title' => ['text' => 'Titulo', 'align' => 'L'])),
+                    )),
+                )
+            ),
+            'records' => array(
+                array('Model' => array(
+                    'field' => $zipcode,
+                ))
+            )
+        );
+
+        $created = $this->document->create($settings);
+
+        $this->assertTrue($created);
+    }
 }
