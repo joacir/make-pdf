@@ -580,19 +580,19 @@ class PdfDocumentTest extends TestCase {
             'template' => array(
                 'config' => $this->documentConfig,
                 'header' => array(
-                    array('cell' => array('useTag' => true, 'text' => 'SOME [b]HEADER[/b] TEXT', 'fontSizePt' => 20, 'lineHeight' => 10))
+                    array('cell' => array('useTag' => true, 'text' => 'SOME <b>HEADER</b> TEXT', 'fontSizePt' => 20, 'lineHeight' => 10))
                 ),
                 'body' => array(
                     array('cell' => array('useTag' => true, 'fieldName' => 'Model.field1', 'title' => array('fieldName' => 'Model.field2')))
                 ),
                 'footer' => array(
-                    array('cell' => array('useTag' => true, 'text' => 'SOME [B]BOLD[/B] FOOTER [B]TEXT[/B] TOO', 'fontSizePt' => 20, 'lineHeight' => 10))
+                    array('cell' => array('useTag' => true, 'text' => 'SOME <B>OLD</B> FOOTER <B>TEXT</B> TOO', 'fontSizePt' => 20, 'lineHeight' => 10))
                 )
             ),
             'records' => array(
-                array('Model' => array('field1' => 'Record 1 [B]with bold[/B] and [I]italic font[/I] and [U]underline[/U] too. [B][I][U]But all of them too![/U][/I][/B]', 'field2' => '[b]Record[/b] 1 title')),
-                array('Model' => array('field1' => 'Record 2', 'field2' => 'Record 2 [b]bold[/b] title')),
-                array('Model' => array('field1' => 'Record 3', 'field2' => 'Record 3 [b]title[/b]'))
+                array('Model' => array('field1' => 'Record 1 <B>with bold</B> and <I>italic font</I> and <U>underline</U> too. <B><I><U>But all of them too!</U></I></B>', 'field2' => '<b>Record</b> 1 title')),
+                array('Model' => array('field1' => 'Record 2', 'field2' => 'Record 2 <b>bold</b> title')),
+                array('Model' => array('field1' => 'Record 3', 'field2' => 'Record 3 <b>title</b>'))
             )
         );
 
