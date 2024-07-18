@@ -44,7 +44,7 @@ class QrCodeImage extends Cell {
     public function getVersion() {
         $version = 5;
         if (isset($this->config['version'])) {
-            $version = $this->config['version'];
+            $version = (int)$this->config['version'];
         }
 
         return $version;
