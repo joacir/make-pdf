@@ -105,6 +105,7 @@ class PostNetCode extends Cell {
 
         $this->Pdf->SetY($y + $this->fullBarHeight);
         $this->Pdf->setLasth($this->fullBarHeight + $this->titleLineHeight);
+        $this->Pdf->SetLineWidth(0.2);
     }
 
     public function getLineHeight() {
