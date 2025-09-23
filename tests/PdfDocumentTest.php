@@ -636,4 +636,29 @@ class PdfDocumentTest extends TestCase {
 
         $this->assertTrue($created);
     }
+
+    public function testConfigFields() {
+        $file = RESULTS_PATH . 'configFields.pdf';
+        if (file_exists($file)) unlink($file);
+        $settings = array(
+            'orientation' => 'L',
+            'templateFile' => FIXTURES_PATH . 'template_file_config_fields_test.xml',
+            'fileName' => $file,
+            'records' => array(
+                array('Model' => array('field1' => 'Record 1', 'field2' => 'Record 1 title')),
+                array('Model' => array('field1' => 'Record 2', 'field2' => 'Record 2 title')),
+                array('Model' => array('field1' => 'Record 3', 'field2' => 'Record 3 title'))
+            ),
+            'configFields' => [
+                'cell1' => ['text' => 'Some text line 2 cell 1'],
+                'cell2' => ['text' => 'Some text line 2 cell 2', 'lineHeight' => 10],
+                'cell3' => ['text' => 'Some text line 2 cell 3'],
+            ],
+        );
+
+        $created = $this->document->create($settings);
+
+        $this->assertTrue($created);
+    }
+
 }

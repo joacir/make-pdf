@@ -33,14 +33,14 @@ $document = new PdfDocument();
 Configure the document:
 
 ```
-$settings = array(
+$settings = [
     'fileName' => 'hello_world.pdf',
-    'template' => array(
-        'body' => array(
-            array('cell' => array('text' => 'Hello World!')),
-        )
-    )
-);
+    'template' => [
+        'body' => [
+            ['cell' => ['text' => 'Hello World!']],
+        ],
+    ],
+];
 ```
 
 Create the document:
@@ -62,21 +62,21 @@ $report = new PdfReport();
 Configure the report:
 
 ```
-$settings = array(
+$settings = [
     'fileName' => 'report.pdf',
-    'template' => array(
-        'body' => array(
-            array('line' => array(
-                array('cell' => array('fieldName' => 'Aliance.number')),
-                array('cell' => array('fieldName' => 'Aliance.name'))
-            ))
-        )
-    ),
-    'records' => array(
-        array('Aliance' => array('number' => 1, 'name' => 'Luke Skywalker')),
-        array('Aliance' => array('number' => 2, 'name' => 'Leia Organa'))
-    );
-);
+    'template' => [
+        'body' => [
+            ['line' => [
+                ['cell' => ['fieldName' => 'Aliance.number']],
+                ['cell' => ['fieldName' => 'Aliance.name']]
+            ]]
+        ]
+    ],
+    'records' => [
+        ['Aliance' => ['number' => 1, 'name' => 'Luke Skywalker']],
+        ['Aliance' => ['number' => 2, 'name' => 'Leia Organa']],
+    ];
+];
 ```
 
 Create the report:
@@ -106,17 +106,28 @@ S: return the document as a string.
 
 * *records* - The data structure used to generate a PDF content, normaly feed from a database entity. In a PdfDocument each record will generate a page, although in PdfReport a page will contain many records acording with template defined options.
 
-* *skipFirstFooter* - Skips footer on first page. (Default false)
-
 ### Example of records:
 
 ```
-$records = array(
-    array('EntityName' => array('fieldName' => 'Some content one'),
-    array('EntityName' => array('fieldName' => 'Some content two'),
-    array('EntityName' => array('fieldName' => 'Some content two'),
+$records = [
+    ['EntityName' => ['fieldName' => 'Some content one']],
+    ['EntityName' => ['fieldName' => 'Some content two']],
+    ['EntityName' => ['fieldName' => 'Some content two']],
     ...
-);
+];
+```
+
+* *skipFirstFooter* - Skips footer on first page. (Default false)
+
+* *configFields* - The dynamics configurations of cells that overcome template configuration.
+
+### Example of configFields:
+
+```
+$configFields = [
+    'cell1' => ['lineHeight' => 10, 'text' => 'Hello world'],
+    ...
+];
 ```
 
 * *header* - A data structure like *records*, but contain only one record used in page header content.
@@ -233,66 +244,68 @@ The nodes can contain the follow attributes used to define its caracteristics:
 
 * *useTag* - Set a cell to ajust font style when detect a tag in the content. Allowed tags are: `<B>` - Bold, `<I>` - Italic and `<U>` - Underline
 
+* *configField* - Set a cell with configs found in *configFields* settings
+
 ### Example of a complete template contained sessions, nodes and attributes:
 
 ```
-$template = array(
-    'config' => array(
+$template = [
+    'config' => [
         'border' => 1,
         'align' => 'L',
         'fill' => 0,
         'fontFamily' => 'Arial',
         'fontSizePt' => 10
-    ),
-    'header' => array(
-        'line1' => array('line' => array(
+    ],
+    'header' => [
+        'line1' => ['line' => [
             'lineHeight' => 20,
-            'image1' => array('image' => array('fieldName' => 'Header.image', 'lineWidth' => 20)),
-            'cell1' => array('cell' => array('fieldName' => 'Header.title'))
-        ))
-    ),
-    'columnTitles' => array(
-        'line1' => array('line' => array(
+            'image1' => ['image' => ['fieldName' => 'Header.image', 'lineWidth' => 20]],
+            'cell1' => ['cell' => ['fieldName' => 'Header.title']],
+        ]],
+    ],
+    'columnTitles' => [
+        'line1' => ['line' => [
             'fontStyle' => 'B',
-            'cell1' => array('cell' => array('text' => 'Number', 'lineWidth' => 20)),
-            'cell2' => array('cell' => 'Name'),
-            'cell3' => array('cell' => array('text' => 'Value', 'lineWidth' => 30))
-        ))
-    ),
-    'body' => array(
-        'groupDetail1' => array('groupDetail' => array(
+            'cell1' => ['cell' => ['text' => 'Number', 'lineWidth' => 20]],
+            'cell2' => ['cell' => 'Name'],
+            'cell3' => ['cell' => ['text' => 'Value', 'lineWidth' => 30]],
+        ]],
+    ],
+    'body' => [
+        'groupDetail1' => ['groupDetail' => [
             'fieldName' => 'Custumer.group',
-            'line1' => array('line' => array(
+            'line1' => ['line' => [
                 'lineHeight' => 10,
                 'fontSizePt' => 12,
-                'cell1' => array('cell' => array('text' => 'Group:', 'lineWidth' => 40, 'border' => 0)),
-                'cell2' => array('cell' => array('fieldName' => 'Custumer.group', 'border' => 0)),
-            ))
-        )),
-        'line1' => array('line' => array(
+                'cell1' => ['cell' => ['text' => 'Group:', 'lineWidth' => 40, 'border' => 0]],
+                'cell2' => ['cell' => ['fieldName' => 'Custumer.group', 'border' => 0]],
+            ]],
+        ]],
+        'line1' => ['line' => [
             'lineHeight' => 10,
             'alternateFill' => 210,
             'border' => '1',
-            'cell1' => array('cell' => array('fieldName' => 'Custumer.number', 'lineWidth' => 20)),
-            'cell2' => array('cell' => array('fieldName' => 'Custumer.name')),
-            'cell3' => array('cell' => array('fieldName' => 'Custumer.value', 'lineWidth' => 30))
-        ))
+            'cell1' => ['cell' => ['fieldName' => 'Custumer.number', 'lineWidth' => 20]],
+            'cell2' => ['cell' => ['fieldName' => 'Custumer.name']],
+            'cell3' => ['cell' => ['fieldName' => 'Custumer.value', 'lineWidth' => 30]],
+        ]],
     ),
-    'sumary' => array(
+    'sumary' => [
         'SUM_OF_CUSTUMER' => 'Custumer.value',
-        'line1' => array('line' => array(
-            'cell1' => array('cell' => array('text' => 'CUSTUMER COUNT ==> [RECORD_COUNT]', 'fontStyle' => 'I')),
-            'cell2' => array('cell' => array('text' => '[SUM_OF_CUSTUMER]', 'fontStyle' => 'B', 'decimal' => '2'))
-        ))
-    ),
-    'footer' => array(
-        'line1' => array('line' => array(
-            'cell1' => array('cell' => 'Some footer text'),
-            'cell2' => array('cell' => 'In [DATE]'),
-            'cell3' => array('cell' => 'Pages: [PAGE]/[PAGES]'),
-        ))
-    )
-);
+        'line1' => ['line' => [
+            'cell1' => ['cell' => ['text' => 'CUSTUMER COUNT ==> [RECORD_COUNT]', 'fontStyle' => 'I']],
+            'cell2' => ['cell' => ['text' => '[SUM_OF_CUSTUMER]', 'fontStyle' => 'B', 'decimal' => '2']],
+        ]],
+    ],
+    'footer' => [
+        'line1' => ['line' => [
+            'cell1' => ['cell' => 'Some footer text'],
+            'cell2' => ['cell' => 'In [DATE]'],
+            'cell3' => ['cell' => 'Pages: [PAGE]/[PAGES]'],
+        ]],
+    ],
+];
 ```
 
 See more examples in [tests](tests) folder.
@@ -356,12 +369,12 @@ Example of a XML contained a template:
 It´s possible to set one or more XML files, using a array in "templateFile" option. Like:
 
 ```
-$templateFile = array(
+$templateFile = [
     '/templates/config.xml',
     '/templates/header.xml',
     '/templates/body.xml',
     '/templates/footer.xml'
-);
+];
 ```
 
 See more examples of template XML files in [tests/fixtures](tests/fixtures) folder.

@@ -25,6 +25,7 @@ class PdfDocument extends PDFWriteTag {
     public $nodes = null;
     public $config = array('border' => null, 'align' => 'L', 'fill' => false);
     public $records = array();
+    public $configFields = array();
     public $record = array();
     public $header = array();
     public $fillOn = true;

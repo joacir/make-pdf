@@ -1,0 +1,48 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<template>
+    <config>
+        <border>1</border>
+        <align>C</align>
+        <fill>0</fill>
+        <fontFamily>Arial</fontFamily>
+        <fontSizePt>20</fontSizePt>
+        <groupSpacing>2</groupSpacing>
+    </config>
+    <body>
+        <group1>
+            <group>
+                <lineWidth>250</lineWidth>
+                <border>1</border>
+                <line1>
+                    <line>
+                        <cell1>
+                            <cell fieldName="Model.field1">
+                                <title fieldName="Model.field2"></title>
+                            </cell>
+                        </cell1>
+                        <cell2>
+                            <digit>
+                                <text>6</text>
+                            </digit>
+                        </cell2>
+                        <cell3>
+                            <cell>
+                                <text>Some text line 1 cell 3</text>
+                            </cell>
+                        </cell3>
+                    </line>
+                </line1>
+                <line2>
+                    <line>
+                        <lineHeight>20</lineHeight>
+                        <border>1</border>
+                        <title><text>Line title</text></title>
+                        <cell1><cell configField="cell1"></cell></cell1>
+                        <cell2><cell configField="cell2"></cell></cell2>
+                        <cell3><cell configField="cell3"></cell></cell3>
+                    </line>
+                </line2>
+            </group>
+        </group1>
+    </body>
+</template>

@@ -18,6 +18,12 @@ class Cell {
         if (!is_array($config)) {
             $this->config = array('text' => $config);
         }
+        if (
+            isset($config['configField']) &&
+            isset($this->Pdf->configFields[$config['configField']])
+        ) {
+            $this->config = array_merge($config, $this->Pdf->configFields[$config['configField']]);
+        }
         $this->setAutoPageBreak();
         $this->createTitle();
         $this->create();
