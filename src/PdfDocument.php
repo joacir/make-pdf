@@ -309,6 +309,11 @@ class PdfDocument extends PDFWriteTag {
         parent::MultiCell($w, $h, $this->convertToISO($txt), $border, $align, $fill);
     }
 
+	public function WriteTag($w, $h, $txt, $border=0, $align="J", $fill=false, $padding=0)
+	{
+        parent::WriteTag($w, $h, $this->convertToISO($txt), $border, $align, $fill, $padding);
+    }
+
     public function convertToISO($text) {
         if (mb_detect_encoding($text, 'auto', true) == "UTF-8") {
             $text = @iconv('UTF-8', 'ISO-8859-1//IGNORE', $text);

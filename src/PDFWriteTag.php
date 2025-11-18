@@ -34,7 +34,7 @@ class PDFWriteTag extends \FPDF
 
 	// Public Functions
 
-	function WriteTag($w, $h, $txt, $border=0, $align="J", $fill=false, $padding=0)
+	public function WriteTag($w, $h, $txt, $border=0, $align="J", $fill=false, $padding=0)
 	{
 		$this->wLine=$w;
 		$this->hLine=$h;
